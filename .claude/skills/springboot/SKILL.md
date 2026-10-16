@@ -37,16 +37,38 @@ Working domain used throughout all examples: **Product Management System**.
 | Concern          | Choice                                                          |
 |------------------|-----------------------------------------------------------------|
 | Language         | Java 21 (records, sealed classes, text blocks where appropriate)|
-| Build            | **Gradle** (Kotlin DSL) **or Maven** — see references below    |
-| Framework        | Spring Boot 3.4.x                                               |
-| Persistence      | Spring Data JPA + Hibernate 6                                   |
+| Build            | **Gradle** (Groovy)    |
+| Framework        | Spring Boot 4.1.1                                               |
+| Persistence      | Spring Data JPA + Hibernate                                    |
 | Mapping          | MapStruct 1.5+                                                  |
 | Boilerplate      | Lombok                                                          |
 | Validation       | Hibernate Validator (Jakarta `@Valid`)                          |
-| Security         | Spring Security 6 — custom `OncePerRequestFilter` JWT           |
+| Security         | Spring Security — custom `OncePerRequestFilter` JWT           |
 | Response shape   | `ApiResponse<T> { status, message, data }`                      |
 | Logging          | SLF4J + Logback — entry/exit on every controller & service method |
 | DB Migration     | Flyway (preferred) or Liquibase                                 |
+
+---## Class Placement — Auto-Detection Rules
+
+When a new class is added, determine its package by these rules **in order**:
+
+| Class characteristics                                          | Package                        |
+|----------------------------------------------------------------|--------------------------------|
+| Annotated `@RestController` or `@Controller`                   | `controller/`                  |
+| Interface with only method signatures (domain contract)        | `service/`                     |
+| `implements XxxService`, annotated `@Service`                  | `service/impl/`                |
+| Extends `JpaRepository` / `CrudRepository`                     | `repository/`                  |
+| Annotated `@Entity`                                            | `entity/`                      |
+| Name ends with `Request`, used as `@RequestBody`               | `dto/request/`                 |
+| Name ends with `Response`, returned from service               | `dto/response/`                |
+| Annotated `@Mapper` (MapStruct)                                | `mapper/`                      |
+| Extends `AppException` / `RuntimeException` (domain errors)    | `exception/`                   |
+| Annotated `@RestControllerAdvice` / `@ControllerAdvice`        | `exception/handler/`           |
+| Annotated `@Configuration` or `@EnableXxx`                     | `config/`                      |
+| Stateless, no Spring annotations, pure helper methods          | `util/`                        |
+| Only `static final` constants                                  | `constants/`                   |
+| Implements `UserDetailsService` or extends `OncePerRequestFilter` | `security/`               |
+| Shared wrapper types (`ApiResponse`, `ErrorResponse`)          | `dto/`                         |
 
 ---
 
