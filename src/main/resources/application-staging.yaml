@@ -3,6 +3,11 @@ spring:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
   data:
     redis:
       host: ${REDIS_HOST}
@@ -11,5 +16,5 @@ spring:
 
 logging:
   level:
-    root: DEBUG
-    com.joshsoftware.templateDrivenDocumentService: DEBUG
+    root: INFO
+    com.joshsoftware.templateDrivenDocumentService: INFO
