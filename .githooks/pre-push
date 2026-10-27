@@ -1,0 +1,92 @@
+#!/usr/bin/env sh
+# Run the project's GitHub Actions CI (.github/workflows/ci.yml) locally before every push,
+# using act (https://github.com/nektos/act) and Docker.
+# Prints one line per step; on failure, shows the end of the failed step's output.
+# Skip once with: git push --no-verify
+
+set -eu
+
+cd "$(git rev-parse --show-toplevel)"
+LOG="$(git rev-parse --absolute-git-dir)/act-ci.log"
+
+if ! command -v act >/dev/null 2>&1; then
+    echo "pre-push: 'act' is not installed, so CI cannot run locally."
+    echo "Install it from https://nektosact.com/installation/ then push again."
+    echo "Push BLOCKED."
+    exit 1
+fi
+
+if ! docker info >/dev/null 2>&1; then
+    echo "pre-push: Docker is not running. Start Docker and push again."
+    echo "Push BLOCKED."
+    exit 1
+fi
+
+# Pick free host ports for the Postgres and Redis service containers, so they never clash
+# with anything already running on this machine.
+free_port() {
+    python3 -c 'import socket; s = socket.socket(); s.bind(("127.0.0.1", 0)); print(s.getsockname()[1])'
+}
+PG_PORT="$(free_port)"
+REDIS_PORT="$(free_port)"
+
+STATUS="$(mktemp)"
+trap 'rm -f "$STATUS"' EXIT
+
+echo "pre-push: running CI locally (full log: $LOG)"
+
+# act is run without --artifact-server-path, so it opens no server port; the workflow
+# skips upload steps when vars.LOCAL_ACT is set.
+# The Docker volume tdds-act-gradle-cache keeps Gradle and its dependencies between runs,
+# so they are downloaded once, not on every push. Reset it with:
+#   docker volume rm tdds-act-gradle-cache
+{
+    act push \
+        --workflows .github/workflows/ci.yml \
+        -P ubuntu-latest=catthehacker/ubuntu:act-latest \
+        --container-options "-v tdds-act-gradle-cache:/root/.gradle" \
+        --var LOCAL_ACT=true \
+        --var LOCAL_PG_PORT="$PG_PORT" \
+        --var LOCAL_REDIS_PORT="$REDIS_PORT" 2>&1
+    echo $? > "$STATUS"
+} | tee "$LOG" | awk '
+    # Read the job name from the "[workflow/job]" prefix, then drop the prefix.
+    {
+        line = $0; job = ""
+        if (match(line, /^\[[^]]*\]/)) {
+            job = substr(line, 2, RLENGTH - 2); sub(/^[^\/]*\//, "", job)
+        }
+        sub(/^\[[^]]*\] */, "", line)
+    }
+
+    # Print a header each time the output switches to another job.
+    job != "" && job != current { current = job; print "▶ " job }
+
+    # New step: reset the buffer that holds its output.
+    index(line, "⭐ Run ") == 1 { n = 0; next }
+
+    # Step output: keep the last 60 lines in a ring buffer.
+    index(line, "|") == 1 { buf[n % 60] = line; n++; next }
+
+    index(line, "✅") == 1 || index(line, "❌") == 1 {
+        ok = (index(line, "✅") == 1)
+        name = line
+        sub(/^[^-]*- (Main |Pre |Post )?/, "", name)        # keep only the step name
+        gsub(/@[0-9a-f]+/, "", name)                        # drop pinned action SHAs
+        printf "  %s %s\n", (ok ? "✅" : "❌"), name
+        if (!ok) {
+            start = (n > 60) ? n - 60 : 0
+            for (i = start; i < n; i++) print "       " buf[i % 60]
+        }
+        n = 0
+        next
+    }
+'
+
+CODE="$(cat "$STATUS")"
+if [ "$CODE" != "0" ]; then
+    echo
+    echo "Push BLOCKED: CI failed locally. See the failed step above, or the full log: $LOG"
+    exit 1
+fi
+echo "pre-push: CI passed."
