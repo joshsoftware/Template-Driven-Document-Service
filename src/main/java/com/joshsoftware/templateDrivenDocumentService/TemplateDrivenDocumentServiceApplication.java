@@ -1,4 +1,4 @@
-package com.joshsoftware.template_driven_document._service;
+package com.joshsoftware.templateDrivenDocumentService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

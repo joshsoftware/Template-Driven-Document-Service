@@ -1,4 +1,4 @@
-package com.joshsoftware.template_driven_document._service;
+package com.joshsoftware.templateDrivenDocumentService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
