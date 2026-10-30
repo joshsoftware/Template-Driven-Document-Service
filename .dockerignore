@@ -1,0 +1,12 @@
+.git
+.github
+.gradle
+.claude
+.idea
+.vscode
+build
+*.iml
+.env
+.env.*
+ci
+HELP.md

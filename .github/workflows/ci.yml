@@ -1,0 +1,118 @@
+name: CI
+
+# Runs on pull requests into main and pushes to main: build first, then unit tests.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  JAVA_VERSION: "21"
+
+jobs:
+  build:
+    name: Build (Gradle)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4.9.1
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4.4.3
+
+      - name: Compile and package
+        run: ./gradlew assemble --no-daemon
+
+  docker:
+    name: Build Docker image
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Build image
+        run: docker build --tag template-driven-document-service:ci .
+
+  test:
+    name: Unit tests + coverage (Gradle)
+    needs: [build]
+    runs-on: ubuntu-latest
+    services:
+      # @SpringBootTest starts the full context, which connects to Postgres and Redis.
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: template_driven_document
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        # GitHub: random host port. Local act run (pre-push hook): a free port picked by the hook.
+        ports: ["${{ vars.LOCAL_PG_PORT && format('{0}:5432', vars.LOCAL_PG_PORT) || '5432' }}"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ["${{ vars.LOCAL_REDIS_PORT && format('{0}:6379', vars.LOCAL_REDIS_PORT) || '6379' }}"]
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4.9.1
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4.4.3
+
+      - name: Run unit tests
+        run: ./gradlew test --no-daemon
+        env:
+          SPRING_PROFILES_ACTIVE: development
+          # Services are reached via localhost and their published host port, both on GitHub
+          # and in local act runs (where the pre-push hook passes the ports it picked).
+          DB_URL: jdbc:postgresql://localhost:${{ vars.LOCAL_PG_PORT || job.services.postgres.ports['5432'] }}/template_driven_document
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+          REDIS_HOST: localhost
+          REDIS_PORT: ${{ vars.LOCAL_REDIS_PORT || job.services.redis.ports['6379'] }}
+
+      - name: Coverage summary
+        if: always()
+        run: |
+          REPORT=build/reports/jacoco/test/jacocoTestReport.xml
+          if [ -f "$REPORT" ]; then
+            python3 - "$REPORT" >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          import sys, xml.etree.ElementTree as ET
+          root = ET.parse(sys.argv[1]).getroot()
+          print("| Counter | Covered | Missed | Coverage |\n|---|---|---|---|")
+          for c in root.findall("counter"):
+              covered, missed = int(c.get("covered")), int(c.get("missed"))
+              total = covered + missed
+              pct = f"{100 * covered / total:.1f}%" if total else "n/a"
+              print(f"| {c.get('type')} | {covered} | {missed} | {pct} |")
+          EOF
+          fi
+
+      # Skipped in local act runs (pre-push hook), which start no artifact server.
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always() && !vars.LOCAL_ACT
+        with:
+          name: test-and-coverage-reports
+          path: |
+            build/reports/tests/test
+            build/test-results/test
+            build/reports/jacoco/test
+          if-no-files-found: ignore
