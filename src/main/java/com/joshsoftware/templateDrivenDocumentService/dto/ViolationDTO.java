@@ -4,18 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-/**
- * One failed check in a request or payload, e.g. {@code { "field": "transactions[3].amount", "rule": "NOT_A_NUMBER" }}.
- * Carries the field path and the rule only, never the rejected value: the value may be customer data.
- **/
+// One failed validation check.
+// Holds the field name and the rule only, never the value, because it may be customer data.
 @Getter
 @AllArgsConstructor
 @Builder
 public class ViolationDTO {
 
-    /** Contract or request field path: {@code address.city}, {@code transactions[3].amount}, {@code docType}. */
+    // Field that failed, for example address.city
     private String field;
 
-    /** Rule that failed: {@code REQUIRED}, {@code NOT_A_NUMBER}, {@code BAD_DATE}, {@code NOT_ALLOWED}, ... */
+    // Rule that failed, for example REQUIRED
     private String rule;
 }

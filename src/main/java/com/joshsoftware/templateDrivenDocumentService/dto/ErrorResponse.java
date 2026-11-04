@@ -10,15 +10,9 @@ import lombok.Getter;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Error response returned by the API, with a fixed, client-safe message and optional details.
- * Messages never include request data (payload values may be account numbers or names).
- * Built only by the global exception handler. Shares {@code message} and {@code statusCode}
- * with {@link ApiResponse}, so clients read both the same way.
- *
- * <p>Constructor and builder are private: create it only through {@code of(...)}, so
- * {@code message} and {@code statusCode} always come from the {@link ErrorCode}.
- **/
+// Response body for every failed API call.
+// Create it only with of(...), so the message and status always come from the ErrorCode.
+// Empty fields are not sent in the JSON.
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
@@ -33,23 +27,23 @@ public class ErrorResponse {
 
     private String requestId;
 
-    /** Present only when the job row exists. */
+    // Only set after the job is created.
     private UUID jobId;
 
-    /** Present only for validation failures. */
+    // Only set when validation fails.
     private List<ViolationDTO> violations;
 
-    /** Failure before a job row exists (bad request, unknown doc type). */
+    // Error before the job is created.
     public static ErrorResponse of(ErrorCode code, String requestId) {
         return of(code, requestId, null, null);
     }
 
-    /** Failure after the job row exists. */
+    // Error after the job is created.
     public static ErrorResponse of(ErrorCode code, String requestId, UUID jobId) {
         return of(code, requestId, jobId, null);
     }
 
-    /** Validation failure, with or without a job row. */
+    // Error with validation details.
     public static ErrorResponse of(ErrorCode code, String requestId, UUID jobId, List<ViolationDTO> violations) {
         return ErrorResponse.builder()
                 .message(code.defaultMessage())

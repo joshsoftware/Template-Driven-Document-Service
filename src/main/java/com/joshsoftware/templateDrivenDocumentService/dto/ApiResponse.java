@@ -5,11 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-/**
- * Standard success envelope returned by every controller:
- * {@code { message, statusCode, data }}.
- * Errors use {@link ErrorResponse}, which shares {@code message} and {@code statusCode}.
- **/
+// Response body for every successful API call.
 @Getter
 @AllArgsConstructor
 @Builder
@@ -21,7 +17,7 @@ public class ApiResponse<T> {
 
     private T data;
 
-    /** {@code 200 OK} with a body. */
+    // Builds a 200 OK response.
     public static <T> ApiResponse<T> success(String message, T data) {
         return ApiResponse.<T>builder()
                 .message(message)
