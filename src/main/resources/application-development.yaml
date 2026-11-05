@@ -10,6 +10,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  # Dev schema comes from ddl-auto; migrations run in staging and production only.
+  flyway:
+    enabled: false
 
   data:
     redis:
