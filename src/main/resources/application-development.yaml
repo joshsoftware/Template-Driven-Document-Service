@@ -5,14 +5,11 @@ spring:
     password: ${DB_PASSWORD:}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-  # Dev schema comes from ddl-auto; migrations run in staging and production only.
-  flyway:
-    enabled: false
 
   data:
     redis:
