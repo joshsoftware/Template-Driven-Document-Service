@@ -20,7 +20,6 @@ import lombok.ToString;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -52,10 +51,6 @@ public class DocumentJob {
             updatable = false,
             foreignKey = @ForeignKey(name = "fk_document_jobs_template_version_id"))
     private Template template;
-
-    private LocalDate periodFrom;
-
-    private LocalDate periodTo;
 
     @Column(length = 20)
     private String channel;

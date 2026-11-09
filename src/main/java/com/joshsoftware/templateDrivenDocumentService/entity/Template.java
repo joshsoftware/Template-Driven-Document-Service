@@ -59,23 +59,11 @@ public class Template {
     @Column(updatable = false, columnDefinition = "TEXT")
     private String templateHtml;
 
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(updatable = false, columnDefinition = "CHAR(64)")
-    private String templateSha256;
-
     @Column(updatable = false, columnDefinition = "TEXT")
     private String contractJson;
 
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(updatable = false, columnDefinition = "CHAR(64)")
-    private String contractSha256;
-
     @Column(updatable = false, columnDefinition = "TEXT")
     private String mappingJson;
-
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(updatable = false, columnDefinition = "CHAR(64)")
-    private String mappingSha256;
 
     @Column(updatable = false, length = 100)
     private String createdBy;

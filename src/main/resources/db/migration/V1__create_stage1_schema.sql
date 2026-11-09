@@ -12,11 +12,8 @@ CREATE TABLE templates (
     version         INTEGER         NOT NULL,
     status          template_status NOT NULL DEFAULT 'DRAFT',
     template_html   TEXT,
-    template_sha256 CHAR(64),
     contract_json   TEXT,
-    contract_sha256 CHAR(64),
     mapping_json    TEXT,
-    mapping_sha256  CHAR(64),
     created_by      VARCHAR(100),
     created_at      TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
     activated_at    TIMESTAMPTZ,
@@ -32,14 +29,11 @@ CREATE UNIQUE INDEX uq_templates_one_active ON templates (template_id) WHERE sta
 -- Versions are write-once: only status and its timestamps may change
 CREATE FUNCTION fn_templates_write_once() RETURNS TRIGGER AS $$
 BEGIN
-    IF NEW.template_id     IS DISTINCT FROM OLD.template_id
-    OR NEW.version         IS DISTINCT FROM OLD.version
-    OR NEW.template_html   IS DISTINCT FROM OLD.template_html
-    OR NEW.template_sha256 IS DISTINCT FROM OLD.template_sha256
-    OR NEW.contract_json   IS DISTINCT FROM OLD.contract_json
-    OR NEW.contract_sha256 IS DISTINCT FROM OLD.contract_sha256
-    OR NEW.mapping_json    IS DISTINCT FROM OLD.mapping_json
-    OR NEW.mapping_sha256  IS DISTINCT FROM OLD.mapping_sha256 THEN
+    IF NEW.template_id   IS DISTINCT FROM OLD.template_id
+    OR NEW.version       IS DISTINCT FROM OLD.version
+    OR NEW.template_html IS DISTINCT FROM OLD.template_html
+    OR NEW.contract_json IS DISTINCT FROM OLD.contract_json
+    OR NEW.mapping_json  IS DISTINCT FROM OLD.mapping_json THEN
         RAISE EXCEPTION 'templates row % is write-once', OLD.id;
     END IF;
     RETURN NEW;
@@ -54,8 +48,6 @@ CREATE TRIGGER trg_templates_write_once
 CREATE TABLE document_jobs (
     id                  UUID         NOT NULL,
     template_version_id UUID         NOT NULL,
-    period_from         DATE,
-    period_to           DATE,
     channel             VARCHAR(20),
     request_id          VARCHAR(100),
     status              job_status   NOT NULL,
