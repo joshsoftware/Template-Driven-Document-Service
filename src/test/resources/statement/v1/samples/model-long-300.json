@@ -1,0 +1,2429 @@
+{
+  "customerName": "TEST CUSTOMER",
+  "address": {
+    "lines": [
+      "12 TEST ROAD",
+      "TEST AREA"
+    ],
+    "city": "TEST CITY",
+    "state": "Maharashtra",
+    "pinCode": "411001",
+    "country": "IN"
+  },
+  "statementDate": "2024-05-30",
+  "accountNumber": "10000000000001",
+  "accountType": "Savings Account",
+  "branchDetails": "Test Branch",
+  "customerId": "100000001",
+  "ifsc": "TEST0000001",
+  "micrCode": "000000",
+  "periodFrom": "2024-01-01",
+  "periodTo": "2024-05-30",
+  "generatedAt": "2024-04-30T16:02:48",
+  "transactions": [
+    {
+      "transactionDate": "2024-01-01",
+      "valueDate": "2024-01-01",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "2743.93",
+      "drCr": "C",
+      "balance": "7743.93"
+    },
+    {
+      "transactionDate": "2024-01-01",
+      "valueDate": "2024-01-01",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1190.39",
+      "drCr": "D",
+      "balance": "6553.54"
+    },
+    {
+      "transactionDate": "2024-01-02",
+      "valueDate": "2024-01-02",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "2272.96",
+      "drCr": "D",
+      "balance": "4280.58"
+    },
+    {
+      "transactionDate": "2024-01-02",
+      "valueDate": "2024-01-02",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "1209.94",
+      "drCr": "C",
+      "balance": "5490.52"
+    },
+    {
+      "transactionDate": "2024-01-03",
+      "valueDate": "2024-01-03",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "2092.79",
+      "drCr": "D",
+      "balance": "3397.73"
+    },
+    {
+      "transactionDate": "2024-01-03",
+      "valueDate": "2024-01-03",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "4312.06",
+      "drCr": "C",
+      "balance": "7709.79"
+    },
+    {
+      "transactionDate": "2024-01-04",
+      "valueDate": "2024-01-04",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "2171.43",
+      "drCr": "D",
+      "balance": "5538.36"
+    },
+    {
+      "transactionDate": "2024-01-04",
+      "valueDate": "2024-01-04",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1681.81",
+      "drCr": "D",
+      "balance": "3856.55"
+    },
+    {
+      "transactionDate": "2024-01-05",
+      "valueDate": "2024-01-05",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "4789.61",
+      "drCr": "C",
+      "balance": "8646.16"
+    },
+    {
+      "transactionDate": "2024-01-05",
+      "valueDate": "2024-01-05",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "203.51",
+      "drCr": "C",
+      "balance": "8849.67"
+    },
+    {
+      "transactionDate": "2024-01-06",
+      "valueDate": "2024-01-06",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1799.87",
+      "drCr": "D",
+      "balance": "7049.80"
+    },
+    {
+      "transactionDate": "2024-01-06",
+      "valueDate": "2024-01-06",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "2303.54",
+      "drCr": "D",
+      "balance": "4746.26"
+    },
+    {
+      "transactionDate": "2024-01-07",
+      "valueDate": "2024-01-07",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "1446.51",
+      "drCr": "D",
+      "balance": "3299.75"
+    },
+    {
+      "transactionDate": "2024-01-07",
+      "valueDate": "2024-01-07",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "252.66",
+      "drCr": "D",
+      "balance": "3047.09"
+    },
+    {
+      "transactionDate": "2024-01-08",
+      "valueDate": "2024-01-08",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "652.37",
+      "drCr": "D",
+      "balance": "2394.72"
+    },
+    {
+      "transactionDate": "2024-01-08",
+      "valueDate": "2024-01-08",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "2049.47",
+      "drCr": "D",
+      "balance": "345.25"
+    },
+    {
+      "transactionDate": "2024-01-09",
+      "valueDate": "2024-01-09",
+      "description": "GST 1820-GST",
+      "amount": "139.36",
+      "drCr": "D",
+      "balance": "205.89"
+    },
+    {
+      "transactionDate": "2024-01-09",
+      "valueDate": "2024-01-09",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "2067.50",
+      "drCr": "C",
+      "balance": "2273.39"
+    },
+    {
+      "transactionDate": "2024-01-10",
+      "valueDate": "2024-01-10",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1553.59",
+      "drCr": "D",
+      "balance": "719.80"
+    },
+    {
+      "transactionDate": "2024-01-10",
+      "valueDate": "2024-01-10",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "713.40",
+      "drCr": "D",
+      "balance": "6.40"
+    },
+    {
+      "transactionDate": "2024-01-11",
+      "valueDate": "2024-01-11",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "1665.63",
+      "drCr": "C",
+      "balance": "1672.03"
+    },
+    {
+      "transactionDate": "2024-01-11",
+      "valueDate": "2024-01-11",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "955.87",
+      "drCr": "D",
+      "balance": "716.16"
+    },
+    {
+      "transactionDate": "2024-01-12",
+      "valueDate": "2024-01-12",
+      "description": "GST 1820-GST",
+      "amount": "707.74",
+      "drCr": "D",
+      "balance": "8.42"
+    },
+    {
+      "transactionDate": "2024-01-12",
+      "valueDate": "2024-01-12",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "364.13",
+      "drCr": "C",
+      "balance": "372.55"
+    },
+    {
+      "transactionDate": "2024-01-13",
+      "valueDate": "2024-01-13",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "42.09",
+      "drCr": "D",
+      "balance": "330.46"
+    },
+    {
+      "transactionDate": "2024-01-13",
+      "valueDate": "2024-01-13",
+      "description": "GST 1820-GST",
+      "amount": "58.31",
+      "drCr": "D",
+      "balance": "272.15"
+    },
+    {
+      "transactionDate": "2024-01-14",
+      "valueDate": "2024-01-14",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "2105.23",
+      "drCr": "C",
+      "balance": "2377.38"
+    },
+    {
+      "transactionDate": "2024-01-14",
+      "valueDate": "2024-01-14",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "3091.94",
+      "drCr": "C",
+      "balance": "5469.32"
+    },
+    {
+      "transactionDate": "2024-01-15",
+      "valueDate": "2024-01-15",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "2952.56",
+      "drCr": "C",
+      "balance": "8421.88"
+    },
+    {
+      "transactionDate": "2024-01-15",
+      "valueDate": "2024-01-15",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "2451.78",
+      "drCr": "D",
+      "balance": "5970.10"
+    },
+    {
+      "transactionDate": "2024-01-16",
+      "valueDate": "2024-01-16",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "781.08",
+      "drCr": "D",
+      "balance": "5189.02"
+    },
+    {
+      "transactionDate": "2024-01-16",
+      "valueDate": "2024-01-16",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "2701.11",
+      "drCr": "C",
+      "balance": "7890.13"
+    },
+    {
+      "transactionDate": "2024-01-17",
+      "valueDate": "2024-01-17",
+      "description": "GST 1820-GST",
+      "amount": "736.11",
+      "drCr": "D",
+      "balance": "7154.02"
+    },
+    {
+      "transactionDate": "2024-01-17",
+      "valueDate": "2024-01-17",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "260.06",
+      "drCr": "C",
+      "balance": "7414.08"
+    },
+    {
+      "transactionDate": "2024-01-18",
+      "valueDate": "2024-01-18",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "4795.36",
+      "drCr": "C",
+      "balance": "12209.44"
+    },
+    {
+      "transactionDate": "2024-01-18",
+      "valueDate": "2024-01-18",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "4355.96",
+      "drCr": "C",
+      "balance": "16565.40"
+    },
+    {
+      "transactionDate": "2024-01-19",
+      "valueDate": "2024-01-19",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1493.17",
+      "drCr": "D",
+      "balance": "15072.23"
+    },
+    {
+      "transactionDate": "2024-01-19",
+      "valueDate": "2024-01-19",
+      "description": "GST 1820-GST",
+      "amount": "2352.15",
+      "drCr": "D",
+      "balance": "12720.08"
+    },
+    {
+      "transactionDate": "2024-01-20",
+      "valueDate": "2024-01-20",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "1803.58",
+      "drCr": "D",
+      "balance": "10916.50"
+    },
+    {
+      "transactionDate": "2024-01-20",
+      "valueDate": "2024-01-20",
+      "description": "GST 1820-GST",
+      "amount": "1099.24",
+      "drCr": "D",
+      "balance": "9817.26"
+    },
+    {
+      "transactionDate": "2024-01-21",
+      "valueDate": "2024-01-21",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1375.59",
+      "drCr": "D",
+      "balance": "8441.67"
+    },
+    {
+      "transactionDate": "2024-01-21",
+      "valueDate": "2024-01-21",
+      "description": "GST 1820-GST",
+      "amount": "2468.77",
+      "drCr": "D",
+      "balance": "5972.90"
+    },
+    {
+      "transactionDate": "2024-01-22",
+      "valueDate": "2024-01-22",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "3098.20",
+      "drCr": "C",
+      "balance": "9071.10"
+    },
+    {
+      "transactionDate": "2024-01-22",
+      "valueDate": "2024-01-22",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "3185.99",
+      "drCr": "C",
+      "balance": "12257.09"
+    },
+    {
+      "transactionDate": "2024-01-23",
+      "valueDate": "2024-01-23",
+      "description": "GST 1820-GST",
+      "amount": "1701.41",
+      "drCr": "D",
+      "balance": "10555.68"
+    },
+    {
+      "transactionDate": "2024-01-23",
+      "valueDate": "2024-01-23",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "704.52",
+      "drCr": "D",
+      "balance": "9851.16"
+    },
+    {
+      "transactionDate": "2024-01-24",
+      "valueDate": "2024-01-24",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "349.86",
+      "drCr": "C",
+      "balance": "10201.02"
+    },
+    {
+      "transactionDate": "2024-01-24",
+      "valueDate": "2024-01-24",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "1877.37",
+      "drCr": "C",
+      "balance": "12078.39"
+    },
+    {
+      "transactionDate": "2024-01-25",
+      "valueDate": "2024-01-25",
+      "description": "GST 1820-GST",
+      "amount": "1485.75",
+      "drCr": "D",
+      "balance": "10592.64"
+    },
+    {
+      "transactionDate": "2024-01-25",
+      "valueDate": "2024-01-25",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "966.97",
+      "drCr": "C",
+      "balance": "11559.61"
+    },
+    {
+      "transactionDate": "2024-01-26",
+      "valueDate": "2024-01-26",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "667.70",
+      "drCr": "D",
+      "balance": "10891.91"
+    },
+    {
+      "transactionDate": "2024-01-26",
+      "valueDate": "2024-01-26",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "4074.63",
+      "drCr": "C",
+      "balance": "14966.54"
+    },
+    {
+      "transactionDate": "2024-01-27",
+      "valueDate": "2024-01-27",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "337.24",
+      "drCr": "D",
+      "balance": "14629.30"
+    },
+    {
+      "transactionDate": "2024-01-27",
+      "valueDate": "2024-01-27",
+      "description": "GST 1820-GST",
+      "amount": "680.75",
+      "drCr": "D",
+      "balance": "13948.55"
+    },
+    {
+      "transactionDate": "2024-01-28",
+      "valueDate": "2024-01-28",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "2204.41",
+      "drCr": "C",
+      "balance": "16152.96"
+    },
+    {
+      "transactionDate": "2024-01-28",
+      "valueDate": "2024-01-28",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "3023.58",
+      "drCr": "C",
+      "balance": "19176.54"
+    },
+    {
+      "transactionDate": "2024-01-29",
+      "valueDate": "2024-01-29",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "568.91",
+      "drCr": "D",
+      "balance": "18607.63"
+    },
+    {
+      "transactionDate": "2024-01-29",
+      "valueDate": "2024-01-29",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "3723.25",
+      "drCr": "C",
+      "balance": "22330.88"
+    },
+    {
+      "transactionDate": "2024-01-30",
+      "valueDate": "2024-01-30",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "1133.24",
+      "drCr": "D",
+      "balance": "21197.64"
+    },
+    {
+      "transactionDate": "2024-01-30",
+      "valueDate": "2024-01-30",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "94.43",
+      "drCr": "D",
+      "balance": "21103.21"
+    },
+    {
+      "transactionDate": "2024-01-31",
+      "valueDate": "2024-01-31",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "4189.21",
+      "drCr": "C",
+      "balance": "25292.42"
+    },
+    {
+      "transactionDate": "2024-01-31",
+      "valueDate": "2024-01-31",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "1429.03",
+      "drCr": "C",
+      "balance": "26721.45"
+    },
+    {
+      "transactionDate": "2024-02-01",
+      "valueDate": "2024-02-01",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "3115.69",
+      "drCr": "C",
+      "balance": "29837.14"
+    },
+    {
+      "transactionDate": "2024-02-01",
+      "valueDate": "2024-02-01",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1495.12",
+      "drCr": "C",
+      "balance": "31332.26"
+    },
+    {
+      "transactionDate": "2024-02-02",
+      "valueDate": "2024-02-02",
+      "description": "GST 1820-GST",
+      "amount": "1589.11",
+      "drCr": "D",
+      "balance": "29743.15"
+    },
+    {
+      "transactionDate": "2024-02-02",
+      "valueDate": "2024-02-02",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1029.71",
+      "drCr": "D",
+      "balance": "28713.44"
+    },
+    {
+      "transactionDate": "2024-02-03",
+      "valueDate": "2024-02-03",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "73.08",
+      "drCr": "C",
+      "balance": "28786.52"
+    },
+    {
+      "transactionDate": "2024-02-03",
+      "valueDate": "2024-02-03",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "1091.54",
+      "drCr": "D",
+      "balance": "27694.98"
+    },
+    {
+      "transactionDate": "2024-02-04",
+      "valueDate": "2024-02-04",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "2310.52",
+      "drCr": "C",
+      "balance": "30005.50"
+    },
+    {
+      "transactionDate": "2024-02-04",
+      "valueDate": "2024-02-04",
+      "description": "GST 1820-GST",
+      "amount": "2408.78",
+      "drCr": "D",
+      "balance": "27596.72"
+    },
+    {
+      "transactionDate": "2024-02-05",
+      "valueDate": "2024-02-05",
+      "description": "GST 1820-GST",
+      "amount": "2155.21",
+      "drCr": "D",
+      "balance": "25441.51"
+    },
+    {
+      "transactionDate": "2024-02-05",
+      "valueDate": "2024-02-05",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "1260.44",
+      "drCr": "C",
+      "balance": "26701.95"
+    },
+    {
+      "transactionDate": "2024-02-06",
+      "valueDate": "2024-02-06",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "1737.33",
+      "drCr": "D",
+      "balance": "24964.62"
+    },
+    {
+      "transactionDate": "2024-02-06",
+      "valueDate": "2024-02-06",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "2250.19",
+      "drCr": "D",
+      "balance": "22714.43"
+    },
+    {
+      "transactionDate": "2024-02-07",
+      "valueDate": "2024-02-07",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "3739.23",
+      "drCr": "C",
+      "balance": "26453.66"
+    },
+    {
+      "transactionDate": "2024-02-07",
+      "valueDate": "2024-02-07",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "605.23",
+      "drCr": "D",
+      "balance": "25848.43"
+    },
+    {
+      "transactionDate": "2024-02-08",
+      "valueDate": "2024-02-08",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1040.24",
+      "drCr": "D",
+      "balance": "24808.19"
+    },
+    {
+      "transactionDate": "2024-02-08",
+      "valueDate": "2024-02-08",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "1299.75",
+      "drCr": "C",
+      "balance": "26107.94"
+    },
+    {
+      "transactionDate": "2024-02-09",
+      "valueDate": "2024-02-09",
+      "description": "GST 1820-GST",
+      "amount": "1957.99",
+      "drCr": "D",
+      "balance": "24149.95"
+    },
+    {
+      "transactionDate": "2024-02-09",
+      "valueDate": "2024-02-09",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "654.99",
+      "drCr": "C",
+      "balance": "24804.94"
+    },
+    {
+      "transactionDate": "2024-02-10",
+      "valueDate": "2024-02-10",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "3968.78",
+      "drCr": "C",
+      "balance": "28773.72"
+    },
+    {
+      "transactionDate": "2024-02-10",
+      "valueDate": "2024-02-10",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "28.69",
+      "drCr": "D",
+      "balance": "28745.03"
+    },
+    {
+      "transactionDate": "2024-02-11",
+      "valueDate": "2024-02-11",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1393.42",
+      "drCr": "C",
+      "balance": "30138.45"
+    },
+    {
+      "transactionDate": "2024-02-11",
+      "valueDate": "2024-02-11",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1303.98",
+      "drCr": "D",
+      "balance": "28834.47"
+    },
+    {
+      "transactionDate": "2024-02-12",
+      "valueDate": "2024-02-12",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1943.48",
+      "drCr": "D",
+      "balance": "26890.99"
+    },
+    {
+      "transactionDate": "2024-02-12",
+      "valueDate": "2024-02-12",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1940.36",
+      "drCr": "D",
+      "balance": "24950.63"
+    },
+    {
+      "transactionDate": "2024-02-13",
+      "valueDate": "2024-02-13",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "388.66",
+      "drCr": "C",
+      "balance": "25339.29"
+    },
+    {
+      "transactionDate": "2024-02-13",
+      "valueDate": "2024-02-13",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "224.46",
+      "drCr": "D",
+      "balance": "25114.83"
+    },
+    {
+      "transactionDate": "2024-02-14",
+      "valueDate": "2024-02-14",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1607.17",
+      "drCr": "C",
+      "balance": "26722.00"
+    },
+    {
+      "transactionDate": "2024-02-14",
+      "valueDate": "2024-02-14",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1978.70",
+      "drCr": "C",
+      "balance": "28700.70"
+    },
+    {
+      "transactionDate": "2024-02-15",
+      "valueDate": "2024-02-15",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "995.86",
+      "drCr": "C",
+      "balance": "29696.56"
+    },
+    {
+      "transactionDate": "2024-02-15",
+      "valueDate": "2024-02-15",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "327.75",
+      "drCr": "D",
+      "balance": "29368.81"
+    },
+    {
+      "transactionDate": "2024-02-16",
+      "valueDate": "2024-02-16",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "956.79",
+      "drCr": "D",
+      "balance": "28412.02"
+    },
+    {
+      "transactionDate": "2024-02-16",
+      "valueDate": "2024-02-16",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "116.97",
+      "drCr": "D",
+      "balance": "28295.05"
+    },
+    {
+      "transactionDate": "2024-02-17",
+      "valueDate": "2024-02-17",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1958.73",
+      "drCr": "D",
+      "balance": "26336.32"
+    },
+    {
+      "transactionDate": "2024-02-17",
+      "valueDate": "2024-02-17",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "118.16",
+      "drCr": "D",
+      "balance": "26218.16"
+    },
+    {
+      "transactionDate": "2024-02-18",
+      "valueDate": "2024-02-18",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "3155.85",
+      "drCr": "C",
+      "balance": "29374.01"
+    },
+    {
+      "transactionDate": "2024-02-18",
+      "valueDate": "2024-02-18",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "4753.93",
+      "drCr": "C",
+      "balance": "34127.94"
+    },
+    {
+      "transactionDate": "2024-02-19",
+      "valueDate": "2024-02-19",
+      "description": "GST 1820-GST",
+      "amount": "620.26",
+      "drCr": "D",
+      "balance": "33507.68"
+    },
+    {
+      "transactionDate": "2024-02-19",
+      "valueDate": "2024-02-19",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "188.24",
+      "drCr": "D",
+      "balance": "33319.44"
+    },
+    {
+      "transactionDate": "2024-02-20",
+      "valueDate": "2024-02-20",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "695.31",
+      "drCr": "C",
+      "balance": "34014.75"
+    },
+    {
+      "transactionDate": "2024-02-20",
+      "valueDate": "2024-02-20",
+      "description": "GST 1820-GST",
+      "amount": "941.85",
+      "drCr": "D",
+      "balance": "33072.90"
+    },
+    {
+      "transactionDate": "2024-02-21",
+      "valueDate": "2024-02-21",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "3468.25",
+      "drCr": "C",
+      "balance": "36541.15"
+    },
+    {
+      "transactionDate": "2024-02-21",
+      "valueDate": "2024-02-21",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "2219.49",
+      "drCr": "D",
+      "balance": "34321.66"
+    },
+    {
+      "transactionDate": "2024-02-22",
+      "valueDate": "2024-02-22",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1837",
+      "drCr": "D",
+      "balance": "32484.66"
+    },
+    {
+      "transactionDate": "2024-02-22",
+      "valueDate": "2024-02-22",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1794.29",
+      "drCr": "D",
+      "balance": "30690.37"
+    },
+    {
+      "transactionDate": "2024-02-23",
+      "valueDate": "2024-02-23",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "3882.80",
+      "drCr": "C",
+      "balance": "34573.17"
+    },
+    {
+      "transactionDate": "2024-02-23",
+      "valueDate": "2024-02-23",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1415.16",
+      "drCr": "D",
+      "balance": "33158.01"
+    },
+    {
+      "transactionDate": "2024-02-24",
+      "valueDate": "2024-02-24",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "166.26",
+      "drCr": "C",
+      "balance": "33324.27"
+    },
+    {
+      "transactionDate": "2024-02-24",
+      "valueDate": "2024-02-24",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "619.73",
+      "drCr": "C",
+      "balance": "33944.00"
+    },
+    {
+      "transactionDate": "2024-02-25",
+      "valueDate": "2024-02-25",
+      "description": "GST 1820-GST",
+      "amount": "2381.50",
+      "drCr": "D",
+      "balance": "31562.50"
+    },
+    {
+      "transactionDate": "2024-02-25",
+      "valueDate": "2024-02-25",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "100.31",
+      "drCr": "D",
+      "balance": "31462.19"
+    },
+    {
+      "transactionDate": "2024-02-26",
+      "valueDate": "2024-02-26",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "3757.38",
+      "drCr": "C",
+      "balance": "35219.57"
+    },
+    {
+      "transactionDate": "2024-02-26",
+      "valueDate": "2024-02-26",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "1655.02",
+      "drCr": "C",
+      "balance": "36874.59"
+    },
+    {
+      "transactionDate": "2024-02-27",
+      "valueDate": "2024-02-27",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "432.82",
+      "drCr": "C",
+      "balance": "37307.41"
+    },
+    {
+      "transactionDate": "2024-02-27",
+      "valueDate": "2024-02-27",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1140.81",
+      "drCr": "D",
+      "balance": "36166.60"
+    },
+    {
+      "transactionDate": "2024-02-28",
+      "valueDate": "2024-02-28",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "3017.29",
+      "drCr": "C",
+      "balance": "39183.89"
+    },
+    {
+      "transactionDate": "2024-02-28",
+      "valueDate": "2024-02-28",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "2416.12",
+      "drCr": "D",
+      "balance": "36767.77"
+    },
+    {
+      "transactionDate": "2024-02-29",
+      "valueDate": "2024-02-29",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "2432.91",
+      "drCr": "D",
+      "balance": "34334.86"
+    },
+    {
+      "transactionDate": "2024-02-29",
+      "valueDate": "2024-02-29",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "2418.06",
+      "drCr": "D",
+      "balance": "31916.80"
+    },
+    {
+      "transactionDate": "2024-03-01",
+      "valueDate": "2024-03-01",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1892.73",
+      "drCr": "D",
+      "balance": "30024.07"
+    },
+    {
+      "transactionDate": "2024-03-01",
+      "valueDate": "2024-03-01",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "2035.21",
+      "drCr": "C",
+      "balance": "32059.28"
+    },
+    {
+      "transactionDate": "2024-03-02",
+      "valueDate": "2024-03-02",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "2514.89",
+      "drCr": "C",
+      "balance": "34574.17"
+    },
+    {
+      "transactionDate": "2024-03-02",
+      "valueDate": "2024-03-02",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1297.96",
+      "drCr": "D",
+      "balance": "33276.21"
+    },
+    {
+      "transactionDate": "2024-03-03",
+      "valueDate": "2024-03-03",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "2146.68",
+      "drCr": "D",
+      "balance": "31129.53"
+    },
+    {
+      "transactionDate": "2024-03-03",
+      "valueDate": "2024-03-03",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "1035.94",
+      "drCr": "C",
+      "balance": "32165.47"
+    },
+    {
+      "transactionDate": "2024-03-04",
+      "valueDate": "2024-03-04",
+      "description": "GST 1820-GST",
+      "amount": "2337.63",
+      "drCr": "D",
+      "balance": "29827.84"
+    },
+    {
+      "transactionDate": "2024-03-04",
+      "valueDate": "2024-03-04",
+      "description": "GST 1820-GST",
+      "amount": "2139.68",
+      "drCr": "D",
+      "balance": "27688.16"
+    },
+    {
+      "transactionDate": "2024-03-05",
+      "valueDate": "2024-03-05",
+      "description": "GST 1820-GST",
+      "amount": "775",
+      "drCr": "D",
+      "balance": "26913.16"
+    },
+    {
+      "transactionDate": "2024-03-05",
+      "valueDate": "2024-03-05",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "963.05",
+      "drCr": "D",
+      "balance": "25950.11"
+    },
+    {
+      "transactionDate": "2024-03-06",
+      "valueDate": "2024-03-06",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "604.68",
+      "drCr": "D",
+      "balance": "25345.43"
+    },
+    {
+      "transactionDate": "2024-03-06",
+      "valueDate": "2024-03-06",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "367.59",
+      "drCr": "D",
+      "balance": "24977.84"
+    },
+    {
+      "transactionDate": "2024-03-07",
+      "valueDate": "2024-03-07",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "522.34",
+      "drCr": "D",
+      "balance": "24455.50"
+    },
+    {
+      "transactionDate": "2024-03-07",
+      "valueDate": "2024-03-07",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1804.57",
+      "drCr": "D",
+      "balance": "22650.93"
+    },
+    {
+      "transactionDate": "2024-03-08",
+      "valueDate": "2024-03-08",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "2205.81",
+      "drCr": "D",
+      "balance": "20445.12"
+    },
+    {
+      "transactionDate": "2024-03-08",
+      "valueDate": "2024-03-08",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "581.71",
+      "drCr": "D",
+      "balance": "19863.41"
+    },
+    {
+      "transactionDate": "2024-03-09",
+      "valueDate": "2024-03-09",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1945.56",
+      "drCr": "D",
+      "balance": "17917.85"
+    },
+    {
+      "transactionDate": "2024-03-09",
+      "valueDate": "2024-03-09",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "2136.16",
+      "drCr": "D",
+      "balance": "15781.69"
+    },
+    {
+      "transactionDate": "2024-03-10",
+      "valueDate": "2024-03-10",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "1941.74",
+      "drCr": "D",
+      "balance": "13839.95"
+    },
+    {
+      "transactionDate": "2024-03-10",
+      "valueDate": "2024-03-10",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "3538.43",
+      "drCr": "C",
+      "balance": "17378.38"
+    },
+    {
+      "transactionDate": "2024-03-11",
+      "valueDate": "2024-03-11",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "644.97",
+      "drCr": "D",
+      "balance": "16733.41"
+    },
+    {
+      "transactionDate": "2024-03-11",
+      "valueDate": "2024-03-11",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "2145.31",
+      "drCr": "C",
+      "balance": "18878.72"
+    },
+    {
+      "transactionDate": "2024-03-12",
+      "valueDate": "2024-03-12",
+      "description": "GST 1820-GST",
+      "amount": "303.74",
+      "drCr": "D",
+      "balance": "18574.98"
+    },
+    {
+      "transactionDate": "2024-03-12",
+      "valueDate": "2024-03-12",
+      "description": "GST 1820-GST",
+      "amount": "736.49",
+      "drCr": "D",
+      "balance": "17838.49"
+    },
+    {
+      "transactionDate": "2024-03-13",
+      "valueDate": "2024-03-13",
+      "description": "GST 1820-GST",
+      "amount": "1837.89",
+      "drCr": "D",
+      "balance": "16000.60"
+    },
+    {
+      "transactionDate": "2024-03-13",
+      "valueDate": "2024-03-13",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1707.27",
+      "drCr": "C",
+      "balance": "17707.87"
+    },
+    {
+      "transactionDate": "2024-03-14",
+      "valueDate": "2024-03-14",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "435.93",
+      "drCr": "C",
+      "balance": "18143.80"
+    },
+    {
+      "transactionDate": "2024-03-14",
+      "valueDate": "2024-03-14",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "2388.79",
+      "drCr": "D",
+      "balance": "15755.01"
+    },
+    {
+      "transactionDate": "2024-03-15",
+      "valueDate": "2024-03-15",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1628.13",
+      "drCr": "C",
+      "balance": "17383.14"
+    },
+    {
+      "transactionDate": "2024-03-15",
+      "valueDate": "2024-03-15",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "2191.18",
+      "drCr": "C",
+      "balance": "19574.32"
+    },
+    {
+      "transactionDate": "2024-03-16",
+      "valueDate": "2024-03-16",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "2272.82",
+      "drCr": "D",
+      "balance": "17301.50"
+    },
+    {
+      "transactionDate": "2024-03-16",
+      "valueDate": "2024-03-16",
+      "description": "GST 1820-GST",
+      "amount": "1754.75",
+      "drCr": "D",
+      "balance": "15546.75"
+    },
+    {
+      "transactionDate": "2024-03-17",
+      "valueDate": "2024-03-17",
+      "description": "GST 1820-GST",
+      "amount": "745.88",
+      "drCr": "D",
+      "balance": "14800.87"
+    },
+    {
+      "transactionDate": "2024-03-17",
+      "valueDate": "2024-03-17",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "4725.02",
+      "drCr": "C",
+      "balance": "19525.89"
+    },
+    {
+      "transactionDate": "2024-03-18",
+      "valueDate": "2024-03-18",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1345.06",
+      "drCr": "D",
+      "balance": "18180.83"
+    },
+    {
+      "transactionDate": "2024-03-18",
+      "valueDate": "2024-03-18",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1276.62",
+      "drCr": "D",
+      "balance": "16904.21"
+    },
+    {
+      "transactionDate": "2024-03-19",
+      "valueDate": "2024-03-19",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "1699.57",
+      "drCr": "D",
+      "balance": "15204.64"
+    },
+    {
+      "transactionDate": "2024-03-19",
+      "valueDate": "2024-03-19",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "1828.20",
+      "drCr": "D",
+      "balance": "13376.44"
+    },
+    {
+      "transactionDate": "2024-03-20",
+      "valueDate": "2024-03-20",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "4455.10",
+      "drCr": "C",
+      "balance": "17831.54"
+    },
+    {
+      "transactionDate": "2024-03-20",
+      "valueDate": "2024-03-20",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "279.46",
+      "drCr": "D",
+      "balance": "17552.08"
+    },
+    {
+      "transactionDate": "2024-03-21",
+      "valueDate": "2024-03-21",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1615.99",
+      "drCr": "D",
+      "balance": "15936.09"
+    },
+    {
+      "transactionDate": "2024-03-21",
+      "valueDate": "2024-03-21",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1622.24",
+      "drCr": "D",
+      "balance": "14313.85"
+    },
+    {
+      "transactionDate": "2024-03-22",
+      "valueDate": "2024-03-22",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1957.71",
+      "drCr": "D",
+      "balance": "12356.14"
+    },
+    {
+      "transactionDate": "2024-03-22",
+      "valueDate": "2024-03-22",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "947.12",
+      "drCr": "C",
+      "balance": "13303.26"
+    },
+    {
+      "transactionDate": "2024-03-23",
+      "valueDate": "2024-03-23",
+      "description": "GST 1820-GST",
+      "amount": "1851.70",
+      "drCr": "D",
+      "balance": "11451.56"
+    },
+    {
+      "transactionDate": "2024-03-23",
+      "valueDate": "2024-03-23",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "1390.67",
+      "drCr": "C",
+      "balance": "12842.23"
+    },
+    {
+      "transactionDate": "2024-03-24",
+      "valueDate": "2024-03-24",
+      "description": "GST 1820-GST",
+      "amount": "114.86",
+      "drCr": "D",
+      "balance": "12727.37"
+    },
+    {
+      "transactionDate": "2024-03-24",
+      "valueDate": "2024-03-24",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "3856.06",
+      "drCr": "C",
+      "balance": "16583.43"
+    },
+    {
+      "transactionDate": "2024-03-25",
+      "valueDate": "2024-03-25",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "2363.16",
+      "drCr": "D",
+      "balance": "14220.27"
+    },
+    {
+      "transactionDate": "2024-03-25",
+      "valueDate": "2024-03-25",
+      "description": "GST 1820-GST",
+      "amount": "1931.56",
+      "drCr": "D",
+      "balance": "12288.71"
+    },
+    {
+      "transactionDate": "2024-03-26",
+      "valueDate": "2024-03-26",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "2489.13",
+      "drCr": "D",
+      "balance": "9799.58"
+    },
+    {
+      "transactionDate": "2024-03-26",
+      "valueDate": "2024-03-26",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "543.26",
+      "drCr": "C",
+      "balance": "10342.84"
+    },
+    {
+      "transactionDate": "2024-03-27",
+      "valueDate": "2024-03-27",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "2275.77",
+      "drCr": "D",
+      "balance": "8067.07"
+    },
+    {
+      "transactionDate": "2024-03-27",
+      "valueDate": "2024-03-27",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "986.39",
+      "drCr": "C",
+      "balance": "9053.46"
+    },
+    {
+      "transactionDate": "2024-03-28",
+      "valueDate": "2024-03-28",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "984.05",
+      "drCr": "D",
+      "balance": "8069.41"
+    },
+    {
+      "transactionDate": "2024-03-28",
+      "valueDate": "2024-03-28",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "374.71",
+      "drCr": "D",
+      "balance": "7694.70"
+    },
+    {
+      "transactionDate": "2024-03-29",
+      "valueDate": "2024-03-29",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "1366.35",
+      "drCr": "D",
+      "balance": "6328.35"
+    },
+    {
+      "transactionDate": "2024-03-29",
+      "valueDate": "2024-03-29",
+      "description": "GST 1820-GST",
+      "amount": "513.17",
+      "drCr": "D",
+      "balance": "5815.18"
+    },
+    {
+      "transactionDate": "2024-03-30",
+      "valueDate": "2024-03-30",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1500.44",
+      "drCr": "C",
+      "balance": "7315.62"
+    },
+    {
+      "transactionDate": "2024-03-30",
+      "valueDate": "2024-03-30",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "2373.81",
+      "drCr": "D",
+      "balance": "4941.81"
+    },
+    {
+      "transactionDate": "2024-03-31",
+      "valueDate": "2024-03-31",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "4535.51",
+      "drCr": "C",
+      "balance": "9477.32"
+    },
+    {
+      "transactionDate": "2024-03-31",
+      "valueDate": "2024-03-31",
+      "description": "GST 1820-GST",
+      "amount": "2442.67",
+      "drCr": "D",
+      "balance": "7034.65"
+    },
+    {
+      "transactionDate": "2024-04-01",
+      "valueDate": "2024-04-01",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1672.43",
+      "drCr": "D",
+      "balance": "5362.22"
+    },
+    {
+      "transactionDate": "2024-04-01",
+      "valueDate": "2024-04-01",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1819.82",
+      "drCr": "D",
+      "balance": "3542.40"
+    },
+    {
+      "transactionDate": "2024-04-02",
+      "valueDate": "2024-04-02",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "3792.02",
+      "drCr": "C",
+      "balance": "7334.42"
+    },
+    {
+      "transactionDate": "2024-04-02",
+      "valueDate": "2024-04-02",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1313.86",
+      "drCr": "D",
+      "balance": "6020.56"
+    },
+    {
+      "transactionDate": "2024-04-03",
+      "valueDate": "2024-04-03",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "3921.65",
+      "drCr": "C",
+      "balance": "9942.21"
+    },
+    {
+      "transactionDate": "2024-04-03",
+      "valueDate": "2024-04-03",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "2527.21",
+      "drCr": "C",
+      "balance": "12469.42"
+    },
+    {
+      "transactionDate": "2024-04-04",
+      "valueDate": "2024-04-04",
+      "description": "GST 1820-GST",
+      "amount": "287.82",
+      "drCr": "D",
+      "balance": "12181.60"
+    },
+    {
+      "transactionDate": "2024-04-04",
+      "valueDate": "2024-04-04",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "2231.21",
+      "drCr": "D",
+      "balance": "9950.39"
+    },
+    {
+      "transactionDate": "2024-04-05",
+      "valueDate": "2024-04-05",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "230.95",
+      "drCr": "D",
+      "balance": "9719.44"
+    },
+    {
+      "transactionDate": "2024-04-05",
+      "valueDate": "2024-04-05",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "3110.80",
+      "drCr": "C",
+      "balance": "12830.24"
+    },
+    {
+      "transactionDate": "2024-04-06",
+      "valueDate": "2024-04-06",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "2717.46",
+      "drCr": "C",
+      "balance": "15547.70"
+    },
+    {
+      "transactionDate": "2024-04-06",
+      "valueDate": "2024-04-06",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "4359.03",
+      "drCr": "C",
+      "balance": "19906.73"
+    },
+    {
+      "transactionDate": "2024-04-07",
+      "valueDate": "2024-04-07",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "210.48",
+      "drCr": "D",
+      "balance": "19696.25"
+    },
+    {
+      "transactionDate": "2024-04-07",
+      "valueDate": "2024-04-07",
+      "description": "GST 1820-GST",
+      "amount": "1851.90",
+      "drCr": "D",
+      "balance": "17844.35"
+    },
+    {
+      "transactionDate": "2024-04-08",
+      "valueDate": "2024-04-08",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "520.66",
+      "drCr": "D",
+      "balance": "17323.69"
+    },
+    {
+      "transactionDate": "2024-04-08",
+      "valueDate": "2024-04-08",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "1098.19",
+      "drCr": "D",
+      "balance": "16225.50"
+    },
+    {
+      "transactionDate": "2024-04-09",
+      "valueDate": "2024-04-09",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "281.71",
+      "drCr": "D",
+      "balance": "15943.79"
+    },
+    {
+      "transactionDate": "2024-04-09",
+      "valueDate": "2024-04-09",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "2114.68",
+      "drCr": "D",
+      "balance": "13829.11"
+    },
+    {
+      "transactionDate": "2024-04-10",
+      "valueDate": "2024-04-10",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "2392.73",
+      "drCr": "C",
+      "balance": "16221.84"
+    },
+    {
+      "transactionDate": "2024-04-10",
+      "valueDate": "2024-04-10",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1061.06",
+      "drCr": "D",
+      "balance": "15160.78"
+    },
+    {
+      "transactionDate": "2024-04-11",
+      "valueDate": "2024-04-11",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "2348.81",
+      "drCr": "C",
+      "balance": "17509.59"
+    },
+    {
+      "transactionDate": "2024-04-11",
+      "valueDate": "2024-04-11",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "459.67",
+      "drCr": "D",
+      "balance": "17049.92"
+    },
+    {
+      "transactionDate": "2024-04-12",
+      "valueDate": "2024-04-12",
+      "description": "GST 1820-GST",
+      "amount": "923.66",
+      "drCr": "D",
+      "balance": "16126.26"
+    },
+    {
+      "transactionDate": "2024-04-12",
+      "valueDate": "2024-04-12",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "910.21",
+      "drCr": "D",
+      "balance": "15216.05"
+    },
+    {
+      "transactionDate": "2024-04-13",
+      "valueDate": "2024-04-13",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "63.37",
+      "drCr": "C",
+      "balance": "15279.42"
+    },
+    {
+      "transactionDate": "2024-04-13",
+      "valueDate": "2024-04-13",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1879.67",
+      "drCr": "C",
+      "balance": "17159.09"
+    },
+    {
+      "transactionDate": "2024-04-14",
+      "valueDate": "2024-04-14",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "406.14",
+      "drCr": "D",
+      "balance": "16752.95"
+    },
+    {
+      "transactionDate": "2024-04-14",
+      "valueDate": "2024-04-14",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "2048.55",
+      "drCr": "C",
+      "balance": "18801.50"
+    },
+    {
+      "transactionDate": "2024-04-15",
+      "valueDate": "2024-04-15",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "356.75",
+      "drCr": "D",
+      "balance": "18444.75"
+    },
+    {
+      "transactionDate": "2024-04-15",
+      "valueDate": "2024-04-15",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "470.15",
+      "drCr": "D",
+      "balance": "17974.60"
+    },
+    {
+      "transactionDate": "2024-04-16",
+      "valueDate": "2024-04-16",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "801.46",
+      "drCr": "D",
+      "balance": "17173.14"
+    },
+    {
+      "transactionDate": "2024-04-16",
+      "valueDate": "2024-04-16",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "137.28",
+      "drCr": "D",
+      "balance": "17035.86"
+    },
+    {
+      "transactionDate": "2024-04-17",
+      "valueDate": "2024-04-17",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "2491.54",
+      "drCr": "C",
+      "balance": "19527.40"
+    },
+    {
+      "transactionDate": "2024-04-17",
+      "valueDate": "2024-04-17",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "1975.97",
+      "drCr": "C",
+      "balance": "21503.37"
+    },
+    {
+      "transactionDate": "2024-04-18",
+      "valueDate": "2024-04-18",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "3131.14",
+      "drCr": "C",
+      "balance": "24634.51"
+    },
+    {
+      "transactionDate": "2024-04-18",
+      "valueDate": "2024-04-18",
+      "description": "GST 1820-GST",
+      "amount": "1490.09",
+      "drCr": "D",
+      "balance": "23144.42"
+    },
+    {
+      "transactionDate": "2024-04-19",
+      "valueDate": "2024-04-19",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "3949.80",
+      "drCr": "C",
+      "balance": "27094.22"
+    },
+    {
+      "transactionDate": "2024-04-19",
+      "valueDate": "2024-04-19",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "2404.54",
+      "drCr": "D",
+      "balance": "24689.68"
+    },
+    {
+      "transactionDate": "2024-04-20",
+      "valueDate": "2024-04-20",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1365.78",
+      "drCr": "C",
+      "balance": "26055.46"
+    },
+    {
+      "transactionDate": "2024-04-20",
+      "valueDate": "2024-04-20",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "868.40",
+      "drCr": "D",
+      "balance": "25187.06"
+    },
+    {
+      "transactionDate": "2024-04-21",
+      "valueDate": "2024-04-21",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "2205.19",
+      "drCr": "C",
+      "balance": "27392.25"
+    },
+    {
+      "transactionDate": "2024-04-21",
+      "valueDate": "2024-04-21",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "19.10",
+      "drCr": "D",
+      "balance": "27373.15"
+    },
+    {
+      "transactionDate": "2024-04-22",
+      "valueDate": "2024-04-22",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "57.50",
+      "drCr": "D",
+      "balance": "27315.65"
+    },
+    {
+      "transactionDate": "2024-04-22",
+      "valueDate": "2024-04-22",
+      "description": "GST 1820-GST",
+      "amount": "480.87",
+      "drCr": "D",
+      "balance": "26834.78"
+    },
+    {
+      "transactionDate": "2024-04-23",
+      "valueDate": "2024-04-23",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "4870.54",
+      "drCr": "C",
+      "balance": "31705.32"
+    },
+    {
+      "transactionDate": "2024-04-23",
+      "valueDate": "2024-04-23",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "2419.24",
+      "drCr": "C",
+      "balance": "34124.56"
+    },
+    {
+      "transactionDate": "2024-04-24",
+      "valueDate": "2024-04-24",
+      "description": "GST 1820-GST",
+      "amount": "95.19",
+      "drCr": "D",
+      "balance": "34029.37"
+    },
+    {
+      "transactionDate": "2024-04-24",
+      "valueDate": "2024-04-24",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1582.43",
+      "drCr": "D",
+      "balance": "32446.94"
+    },
+    {
+      "transactionDate": "2024-04-25",
+      "valueDate": "2024-04-25",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1502.50",
+      "drCr": "C",
+      "balance": "33949.44"
+    },
+    {
+      "transactionDate": "2024-04-25",
+      "valueDate": "2024-04-25",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1979.82",
+      "drCr": "C",
+      "balance": "35929.26"
+    },
+    {
+      "transactionDate": "2024-04-26",
+      "valueDate": "2024-04-26",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1948.06",
+      "drCr": "D",
+      "balance": "33981.20"
+    },
+    {
+      "transactionDate": "2024-04-26",
+      "valueDate": "2024-04-26",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "3711.98",
+      "drCr": "C",
+      "balance": "37693.18"
+    },
+    {
+      "transactionDate": "2024-04-27",
+      "valueDate": "2024-04-27",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "4691.37",
+      "drCr": "C",
+      "balance": "42384.55"
+    },
+    {
+      "transactionDate": "2024-04-27",
+      "valueDate": "2024-04-27",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "913.44",
+      "drCr": "D",
+      "balance": "41471.11"
+    },
+    {
+      "transactionDate": "2024-04-28",
+      "valueDate": "2024-04-28",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1116.75",
+      "drCr": "D",
+      "balance": "40354.36"
+    },
+    {
+      "transactionDate": "2024-04-28",
+      "valueDate": "2024-04-28",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "4113.61",
+      "drCr": "C",
+      "balance": "44467.97"
+    },
+    {
+      "transactionDate": "2024-04-29",
+      "valueDate": "2024-04-29",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1518.20",
+      "drCr": "D",
+      "balance": "42949.77"
+    },
+    {
+      "transactionDate": "2024-04-29",
+      "valueDate": "2024-04-29",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "116.41",
+      "drCr": "D",
+      "balance": "42833.36"
+    },
+    {
+      "transactionDate": "2024-04-30",
+      "valueDate": "2024-04-30",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "67.15",
+      "drCr": "D",
+      "balance": "42766.21"
+    },
+    {
+      "transactionDate": "2024-04-30",
+      "valueDate": "2024-04-30",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "3474.70",
+      "drCr": "C",
+      "balance": "46240.91"
+    },
+    {
+      "transactionDate": "2024-05-01",
+      "valueDate": "2024-05-01",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "1224",
+      "drCr": "C",
+      "balance": "47464.91"
+    },
+    {
+      "transactionDate": "2024-05-01",
+      "valueDate": "2024-05-01",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "3080.37",
+      "drCr": "C",
+      "balance": "50545.28"
+    },
+    {
+      "transactionDate": "2024-05-02",
+      "valueDate": "2024-05-02",
+      "description": "GST 1820-GST",
+      "amount": "2243.27",
+      "drCr": "D",
+      "balance": "48302.01"
+    },
+    {
+      "transactionDate": "2024-05-02",
+      "valueDate": "2024-05-02",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "14.15",
+      "drCr": "D",
+      "balance": "48287.86"
+    },
+    {
+      "transactionDate": "2024-05-03",
+      "valueDate": "2024-05-03",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "4780.67",
+      "drCr": "C",
+      "balance": "53068.53"
+    },
+    {
+      "transactionDate": "2024-05-03",
+      "valueDate": "2024-05-03",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1591.05",
+      "drCr": "C",
+      "balance": "54659.58"
+    },
+    {
+      "transactionDate": "2024-05-04",
+      "valueDate": "2024-05-04",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "3263.24",
+      "drCr": "C",
+      "balance": "57922.82"
+    },
+    {
+      "transactionDate": "2024-05-04",
+      "valueDate": "2024-05-04",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "2444.34",
+      "drCr": "D",
+      "balance": "55478.48"
+    },
+    {
+      "transactionDate": "2024-05-05",
+      "valueDate": "2024-05-05",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "39.03",
+      "drCr": "D",
+      "balance": "55439.45"
+    },
+    {
+      "transactionDate": "2024-05-05",
+      "valueDate": "2024-05-05",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "1083.36",
+      "drCr": "C",
+      "balance": "56522.81"
+    },
+    {
+      "transactionDate": "2024-05-06",
+      "valueDate": "2024-05-06",
+      "description": "GST 1820-GST",
+      "amount": "1267.30",
+      "drCr": "D",
+      "balance": "55255.51"
+    },
+    {
+      "transactionDate": "2024-05-06",
+      "valueDate": "2024-05-06",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "1342.70",
+      "drCr": "D",
+      "balance": "53912.81"
+    },
+    {
+      "transactionDate": "2024-05-07",
+      "valueDate": "2024-05-07",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1559.76",
+      "drCr": "D",
+      "balance": "52353.05"
+    },
+    {
+      "transactionDate": "2024-05-07",
+      "valueDate": "2024-05-07",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "290.20",
+      "drCr": "D",
+      "balance": "52062.85"
+    },
+    {
+      "transactionDate": "2024-05-08",
+      "valueDate": "2024-05-08",
+      "description": "GST 1820-GST",
+      "amount": "262.50",
+      "drCr": "D",
+      "balance": "51800.35"
+    },
+    {
+      "transactionDate": "2024-05-08",
+      "valueDate": "2024-05-08",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "2352.91",
+      "drCr": "C",
+      "balance": "54153.26"
+    },
+    {
+      "transactionDate": "2024-05-09",
+      "valueDate": "2024-05-09",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1704.81",
+      "drCr": "D",
+      "balance": "52448.45"
+    },
+    {
+      "transactionDate": "2024-05-09",
+      "valueDate": "2024-05-09",
+      "description": "GST 1820-GST",
+      "amount": "1905.89",
+      "drCr": "D",
+      "balance": "50542.56"
+    },
+    {
+      "transactionDate": "2024-05-10",
+      "valueDate": "2024-05-10",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1656.08",
+      "drCr": "D",
+      "balance": "48886.48"
+    },
+    {
+      "transactionDate": "2024-05-10",
+      "valueDate": "2024-05-10",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "4728.11",
+      "drCr": "C",
+      "balance": "53614.59"
+    },
+    {
+      "transactionDate": "2024-05-11",
+      "valueDate": "2024-05-11",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "522.91",
+      "drCr": "D",
+      "balance": "53091.68"
+    },
+    {
+      "transactionDate": "2024-05-11",
+      "valueDate": "2024-05-11",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1822.74",
+      "drCr": "D",
+      "balance": "51268.94"
+    },
+    {
+      "transactionDate": "2024-05-12",
+      "valueDate": "2024-05-12",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "1000.18",
+      "drCr": "C",
+      "balance": "52269.12"
+    },
+    {
+      "transactionDate": "2024-05-12",
+      "valueDate": "2024-05-12",
+      "description": "GST 1820-GST",
+      "amount": "1719",
+      "drCr": "D",
+      "balance": "50550.12"
+    },
+    {
+      "transactionDate": "2024-05-13",
+      "valueDate": "2024-05-13",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "1624.54",
+      "drCr": "D",
+      "balance": "48925.58"
+    },
+    {
+      "transactionDate": "2024-05-13",
+      "valueDate": "2024-05-13",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "4197.94",
+      "drCr": "C",
+      "balance": "53123.52"
+    },
+    {
+      "transactionDate": "2024-05-14",
+      "valueDate": "2024-05-14",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "2182.61",
+      "drCr": "C",
+      "balance": "55306.13"
+    },
+    {
+      "transactionDate": "2024-05-14",
+      "valueDate": "2024-05-14",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "1649.99",
+      "drCr": "C",
+      "balance": "56956.12"
+    },
+    {
+      "transactionDate": "2024-05-15",
+      "valueDate": "2024-05-15",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1818.64",
+      "drCr": "D",
+      "balance": "55137.48"
+    },
+    {
+      "transactionDate": "2024-05-15",
+      "valueDate": "2024-05-15",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1343.93",
+      "drCr": "D",
+      "balance": "53793.55"
+    },
+    {
+      "transactionDate": "2024-05-16",
+      "valueDate": "2024-05-16",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "996.16",
+      "drCr": "C",
+      "balance": "54789.71"
+    },
+    {
+      "transactionDate": "2024-05-16",
+      "valueDate": "2024-05-16",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1215.63",
+      "drCr": "D",
+      "balance": "53574.08"
+    },
+    {
+      "transactionDate": "2024-05-17",
+      "valueDate": "2024-05-17",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1473.05",
+      "drCr": "D",
+      "balance": "52101.03"
+    },
+    {
+      "transactionDate": "2024-05-17",
+      "valueDate": "2024-05-17",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "4674.27",
+      "drCr": "C",
+      "balance": "56775.30"
+    },
+    {
+      "transactionDate": "2024-05-18",
+      "valueDate": "2024-05-18",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "80.39",
+      "drCr": "D",
+      "balance": "56694.91"
+    },
+    {
+      "transactionDate": "2024-05-18",
+      "valueDate": "2024-05-18",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "2621.31",
+      "drCr": "C",
+      "balance": "59316.22"
+    },
+    {
+      "transactionDate": "2024-05-19",
+      "valueDate": "2024-05-19",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "495.09",
+      "drCr": "D",
+      "balance": "58821.13"
+    },
+    {
+      "transactionDate": "2024-05-19",
+      "valueDate": "2024-05-19",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "2190.35",
+      "drCr": "C",
+      "balance": "61011.48"
+    },
+    {
+      "transactionDate": "2024-05-20",
+      "valueDate": "2024-05-20",
+      "description": "GST 1820-GST",
+      "amount": "499.88",
+      "drCr": "D",
+      "balance": "60511.60"
+    },
+    {
+      "transactionDate": "2024-05-20",
+      "valueDate": "2024-05-20",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "2248.14",
+      "drCr": "C",
+      "balance": "62759.74"
+    },
+    {
+      "transactionDate": "2024-05-21",
+      "valueDate": "2024-05-21",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "521.96",
+      "drCr": "D",
+      "balance": "62237.78"
+    },
+    {
+      "transactionDate": "2024-05-21",
+      "valueDate": "2024-05-21",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1754.06",
+      "drCr": "D",
+      "balance": "60483.72"
+    },
+    {
+      "transactionDate": "2024-05-22",
+      "valueDate": "2024-05-22",
+      "description": "GST 1820-GST",
+      "amount": "2191.60",
+      "drCr": "D",
+      "balance": "58292.12"
+    },
+    {
+      "transactionDate": "2024-05-22",
+      "valueDate": "2024-05-22",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "1083.92",
+      "drCr": "D",
+      "balance": "57208.20"
+    },
+    {
+      "transactionDate": "2024-05-23",
+      "valueDate": "2024-05-23",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "2496.46",
+      "drCr": "D",
+      "balance": "54711.74"
+    },
+    {
+      "transactionDate": "2024-05-23",
+      "valueDate": "2024-05-23",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "4270.84",
+      "drCr": "C",
+      "balance": "58982.58"
+    },
+    {
+      "transactionDate": "2024-05-24",
+      "valueDate": "2024-05-24",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1898.77",
+      "drCr": "C",
+      "balance": "60881.35"
+    },
+    {
+      "transactionDate": "2024-05-24",
+      "valueDate": "2024-05-24",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "750.52",
+      "drCr": "D",
+      "balance": "60130.83"
+    },
+    {
+      "transactionDate": "2024-05-25",
+      "valueDate": "2024-05-25",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1303.72",
+      "drCr": "D",
+      "balance": "58827.11"
+    },
+    {
+      "transactionDate": "2024-05-25",
+      "valueDate": "2024-05-25",
+      "description": "CASA CREDIT INTEREST CAPITALIZED",
+      "amount": "2677.77",
+      "drCr": "C",
+      "balance": "61504.88"
+    },
+    {
+      "transactionDate": "2024-05-26",
+      "valueDate": "2024-05-26",
+      "description": "NEFT CR-TEST EMPLOYER-SALARY",
+      "amount": "4753.05",
+      "drCr": "C",
+      "balance": "66257.93"
+    },
+    {
+      "transactionDate": "2024-05-26",
+      "valueDate": "2024-05-26",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "3861.49",
+      "drCr": "C",
+      "balance": "70119.42"
+    },
+    {
+      "transactionDate": "2024-05-27",
+      "valueDate": "2024-05-27",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "4829.89",
+      "drCr": "C",
+      "balance": "74949.31"
+    },
+    {
+      "transactionDate": "2024-05-27",
+      "valueDate": "2024-05-27",
+      "description": "DEBIT CARD ANNUAL FEES EXCLUSIVE OF GST",
+      "amount": "97.46",
+      "drCr": "D",
+      "balance": "74851.85"
+    },
+    {
+      "transactionDate": "2024-05-28",
+      "valueDate": "2024-05-28",
+      "description": "IMPS-P2A-TEST PAYER-REF0001",
+      "amount": "1420.22",
+      "drCr": "C",
+      "balance": "76272.07"
+    },
+    {
+      "transactionDate": "2024-05-28",
+      "valueDate": "2024-05-28",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "1512.68",
+      "drCr": "D",
+      "balance": "74759.39"
+    },
+    {
+      "transactionDate": "2024-05-29",
+      "valueDate": "2024-05-29",
+      "description": "ATM WDL-TEST ATM",
+      "amount": "661.69",
+      "drCr": "D",
+      "balance": "74097.70"
+    },
+    {
+      "transactionDate": "2024-05-29",
+      "valueDate": "2024-05-29",
+      "description": "UPI/DR/TEST MERCHANT/REF0001",
+      "amount": "658.28",
+      "drCr": "D",
+      "balance": "73439.42"
+    }
+  ],
+  "openingBalance": "5000.00",
+  "totalCredits": "294420.11",
+  "totalDebits": "225980.69",
+  "closingBalance": "73439.42"
+}

@@ -1,0 +1,36 @@
+{
+  "dateFormats": { "date": "yyyyMMdd", "datetime": "yyyy-MM-dd'T'HH:mm:ss" },
+  "transform": {
+    "accountNumber": "AccountDetails.AccountId",
+    "periodFrom":    "StatementPeriod.FromDate",
+    "periodTo":      "StatementPeriod.ToDate",
+    "transactions": {
+      "from": "AccountStatement",
+      "map": {
+        "transactionDate": "TransactionDate",   "valueDate": "ValueDate",
+        "description":     "Desc",              "amount":    "TransactionAmount",
+        "drCr":            "CodeDRCR",          "balance":   "RunningBalance"
+      }
+    },
+    "customerName":   "CustomerDetails.CustomerName",
+    "address": {
+      "from":   "CustomerDetails.AddressDetails",
+      "select": { "AddressType": "Resedential Address" },
+      "map": {
+        "lines": "AddressLine",  "city":    "City",     "state": "State",
+        "pinCode": "PinCode",    "country": "Country"
+      }
+    },
+    "customerId":     "CustomerDetails.CustomerId",
+    "accountType":    "AccountDetails.AccountType",
+    "branchDetails":  "AccountDetails.BranchName",
+    "ifsc":           "AccountDetails.IFSC",
+    "micrCode":       "AccountDetails.MICR",
+    "statementDate":  "system.today()",
+    "generatedAt":    "system.now()",
+    "openingBalance": null,
+    "totalCredits":   null,
+    "totalDebits":    null,
+    "closingBalance": null
+  }
+}

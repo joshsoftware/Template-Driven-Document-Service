@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+  templateId: statement · version: v1 (template, contract and mapping are versioned together)
+  Contract: contract.json in this folder (every ${...} is a contract key).
+  Files: styles.css, assets/images/bank-header.png - all paths relative to this folder.
+  The Java publish step inlines styles.css and assets (base64) and checks: th:text only (no unescaped output),
+  no scripts, no external URLs, well-formed XHTML. Renderer: Thymeleaf 3.1 -> OpenHTMLtoPDF.
+  Layout measured from the bank's sample (account-statement-1765362768775.pdf), units in pt.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Current and Savings Account Statement</title>
+<link rel="stylesheet" type="text/css" href="styles.css"/>
+</head>
+<body>
+
+  <!-- Running elements: OpenHTMLtoPDF moves these into the page margins of every page. -->
+  <div class="page-header"><img src="assets/images/bank-header.png" alt="Bandhan Bank"/></div>
+  <div class="page-footer">
+    <div class="bar"></div>
+    <div class="pages helv">Page <span class="page-no"></span> of <span class="page-count"></span></div>
+  </div>
+
+  <h1 class="doc-title"><span>Current and Savings Account Statement</span></h1>
+
+  <!-- Address block -->
+  <div class="address helv">
+    <div th:text="${customerName}">CUSTOMER NAME</div>
+    <div th:each="line : ${address.lines}" th:text="${line}">ADDRESS LINE</div>
+    <div th:text="${address.city + ' - ' + address.pinCode}">CITY - 000000</div>
+    <div th:text="${address.state}">STATE</div>
+    <div th:if="${address.country != null}" th:text="${address.country}">COUNTRY</div>
+  </div>
+
+  <p class="as-on helv">Account Statement as on
+    <span th:text="${#temporals.format(statementDate, 'MMMM dd, yyyy')}">January 01, 2025</span></p>
+
+  <!-- Customer Account Details -->
+  <h2 class="section">Customer Account Details</h2>
+  <table class="grid details">
+    <colgroup><col style="width: 174.3pt"/><col/></colgroup>
+    <tbody>
+      <tr><td class="label">Account Number</td><td th:text="${accountNumber}">XXXXXXXXXXXXXX</td></tr>
+      <tr><td class="label">Customer Name</td><td th:text="${customerName}">CUSTOMER NAME</td></tr>
+      <tr><td class="label">Account Type</td><td th:text="${accountType}">Savings Account</td></tr>
+      <tr><td class="label">Branch Details</td><td th:text="${branchDetails}">Branch Name</td></tr>
+      <tr><td class="label">Customer ID / CIF</td><td th:text="${customerId}">XXXXXXXXX</td></tr>
+      <tr><td class="label">IFSC</td><td th:text="${ifsc}">XXXX0000000</td></tr>
+      <tr><td class="label">MICR Code</td><td th:text="${micrCode}">XXXXXX</td></tr>
+      <tr><td class="label">Statement Period</td>
+          <td>From <span th:text="${#temporals.format(periodFrom, 'dd MMMM yyyy')}">01 January 2025</span>
+              to <span th:text="${#temporals.format(periodTo, 'dd MMMM yyyy')}">31 January 2025</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- Statement Details: header row repeats on every page (-fs-table-paginate). -->
+  <h2 class="section center">Statement Details</h2>
+  <table class="grid txns" th:unless="${#lists.isEmpty(transactions)}">
+    <colgroup>
+      <col style="width: 80.5pt"/><col style="width: 80.5pt"/><col style="width: 160.9pt"/>
+      <col style="width: 80.5pt"/><col style="width: 40.2pt"/><col style="width: 80.5pt"/>
+    </colgroup>
+    <thead>
+      <tr><th>Transaction Date</th><th>Value Date</th><th>Description</th>
+          <th>Amount</th><th>Dr/Cr</th><th>Balance</th></tr>
+    </thead>
+    <tbody>
+      <tr th:each="t : ${transactions}">
+        <td th:text="${#temporals.format(t.transactionDate, 'MMMM dd, yyyy')}">January 01, 2025</td>
+        <td th:text="${#temporals.format(t.valueDate, 'MMMM dd, yyyy')}">January 01, 2025</td>
+        <td class="desc" th:text="${t.description}">Transaction description</td>
+        <td th:text="${t.amount.toPlainString()}">0</td>
+        <td th:text="${t.drCr}">D</td>
+        <td th:text="${#numbers.formatDecimal(t.balance, 1, 'NONE', 2, 'POINT')}">0.00</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="empty" th:if="${#lists.isEmpty(transactions)}">No transactions for this period</p>
+
+  <!-- Statement Summary -->
+  <h2 class="section">Statement Summary</h2>
+  <table class="grid summary helv">
+    <thead><tr><th>Opening Balance</th><th>Total Credits</th><th>Total Debits</th><th>Closing Balance</th></tr></thead>
+    <tbody><tr>
+      <td th:text="${#numbers.formatDecimal(openingBalance, 1, 'COMMA', 2, 'POINT')}">0.00</td>
+      <td th:text="${#numbers.formatDecimal(totalCredits, 1, 'COMMA', 2, 'POINT')}">0.00</td>
+      <td th:text="${#numbers.formatDecimal(totalDebits, 1, 'COMMA', 2, 'POINT')}">0.00</td>
+      <td th:text="${#numbers.formatDecimal(closingBalance, 1, 'COMMA', 2, 'POINT')}">0.00</td>
+    </tr></tbody>
+  </table>
+
+  <p class="note">Statement generated on
+    <span th:text="${#temporals.format(generatedAt, 'yyyy-MM-dd HH:mm:ss')}">2025-01-01 00:00:00</span> IST</p>
+
+  <!-- ===== Fixed bank text (not in the contract) ===== -->
+  <p class="note" style="margin-top: 22pt">Please find the Details of Complimentary Insurance Cover on your Debit Card</p>
+  <table class="grid insurance" style="margin-top: 34pt">
+    <colgroup>
+      <col style="width: 72.6pt"/><col style="width: 116.2pt"/><col style="width: 101.7pt"/>
+      <col style="width: 159.8pt"/><col style="width: 72.6pt"/>
+    </colgroup>
+    <thead>
+      <tr><th>Debit Card Variant Name</th><th>Insurance Coverage Details</th><th>Name of Insurance Company</th>
+          <th>Address of Insurance Company</th><th>Telephone Number of Insurance Company</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Rupay Platinum</td>
+        <td>Personal Accident insurance and Permanent Disability cover upto INR 2 Lakhs.</td>
+        <td>Tata AIG General Insurance Company Ltd</td>
+        <td>TATA – AIG General Insurance Co. Ltd, 8th Floor, R Tech Park, Village Pahadi Taluka Goregaon, Mumbai Suburban, CTS No: 588/2(pt), 586/4(Apt), 586/7/B Goregaon, Mumbai - 400063</td>
+        <td>18002667780</td>
+      </tr>
+      <tr>
+        <td>Mastercard Platinum</td>
+        <td><p>Personal Accident Death Cover (Rail/Road/Air) INR 10 lakh</p>
+            <p>Air Accident Death Cover INR 1 Cr (If ticket is purchased with Bandhan Bank Mastercard Platinum only)</p>
+            <p>Purchase Protection: Up to INR 2 lakh</p>
+            <p class="last">Lost Card Liability(including counterfeit/skimming /online fraud): Up to INR 5 lakh</p></td>
+        <td>ICICI Lombard General Insurance Company Ltd</td>
+        <td>ICICI Bank Tower, Plot No. 12, Financial District, Nanakramguda, Gachibowli, Hyderabad, Telangana, PIN: 500032</td>
+        <td>18002666</td>
+      </tr>
+      <tr>
+        <td>Visa Platinum</td>
+        <td><p>Personal Accident Death Cover (Rail/Road/Air): INR 10 lakh</p>
+            <p>Air Accident Death Cover: INR 1 Cr (If ticket is purchased with Bandhan Bank Visa Platinum Card only)</p>
+            <p>Purchase Protection: Up to INR 2 lakh</p>
+            <p class="last">Lost Card Liability(including counterfeit/skimming /online fraud): Up to INR 3.5 lakh</p></td>
+        <td>ICICI Lombard General Insurance Company Ltd</td>
+        <td>ICICI Bank Tower, Plot No. 12, Financial District, Nanakramguda, Gachibowli, Hyderabad, Telangana, PIN: 500032</td>
+        <td>18002666</td>
+      </tr>
+      <tr>
+        <td>Visa Classic</td>
+        <td><p>Personal Accident Death Cover (Rail/Road): INR 2 lakh</p>
+            <p>Purchase Protection:Up to INR 50000</p>
+            <p class="last">Lost Card Liability(including counterfeit/skimming /online fraud): Up to INR 50,000</p></td>
+        <td>ICICI Lombard General Insurance Company Ltd</td>
+        <td>ICICI Bank Tower, Plot No. 12, Financial District, Nanakramguda, Gachibowli, Hyderabad, Telangana, PIN: 500032</td>
+        <td>18002666</td>
+      </tr>
+      <tr>
+        <td>Avni Debit Card</td>
+        <td><p>Personal Accident Death Cover (Rail/Road/Air) INR 10 lakh</p>
+            <p>Air Accident Death Cover INR 1 Cr (If ticket is purchased with Bandhan Bank Mastercard Platinum only)</p>
+            <p>Purchase Protection: Up to INR 2 lakh</p>
+            <p class="last">Lost Card Liability(including counterfeit/skimming /online fraud): Up to INR 3.5 lakh</p></td>
+        <td>ICICI Lombard General Insurance Company Ltd</td>
+        <td>ICICI Bank Tower, Plot No. 12, Financial District, Nanakramguda, Gachibowli, Hyderabad, Telangana, PIN: 500032</td>
+        <td>18002666</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="disclaimer">
+    <h3>Disclaimer</h3>
+    <p>a)Call charges may apply depending on the service provider.</p>
+    <p>b)For further details and applicable terms and conditions related to Insurance, you may visit the Debit Card section under www.bandhanbank.com.</p>
+
+    <h3 style="margin-top: 22pt">For reporting loss/theft/misuse/unauthorised use of card or PIN/termination of your Debit Card reach us at:</h3>
+    <p>a) Dedicated 24*7 Helpline No:</p>
+    <p>-Toll-free number: 1800 258 8181</p>
+    <p>-Customer Care Number: 033 4409 9090</p>
+    <p>b) Through Internet banking and mobile banking app (mBandhan).</p>
+    <p>c) You may also visit your nearest Bandhan Bank branch.</p>
+    <p>d)For insurance related queries, please reach out: nonlife.insurance@bandhanbank.com.</p>
+
+    <p class="gap">This is a system generated statement.</p>
+  </div>
+  <p class="end">**End of Statement**</p>
+
+</body>
+</html>

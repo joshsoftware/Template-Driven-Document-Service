@@ -1,0 +1,72 @@
+/* statement · v1 · styles
+   Loaded by template.html (<link href="styles.css">). Paths are relative to this version folder.
+   OpenHTMLtoPDF features: running elements, @page margin boxes, -fs-table-paginate. No flexbox/grid. */
+
+/* ---------- Page: banner on top, red bar + page number at the bottom, on every page ---------- */
+@page {
+  size: A4;
+  margin: 82pt 31pt 62pt 31pt;
+  @top-center    { content: element(pageHeader); vertical-align: top; }
+  @bottom-center { content: element(pageFooter); vertical-align: bottom; }
+}
+.page-header { position: running(pageHeader); padding-top: 10pt; }
+.page-header img { width: 533pt; height: 60pt; display: block; }
+.page-footer { position: running(pageFooter); padding-bottom: 14pt; }
+.page-footer .bar { margin: 0 5pt; height: 12pt; background-color: #cc0000; }
+.page-footer .pages { margin-top: 3pt; text-align: center; font-size: 8pt; color: #555555; }
+.page-no::before    { content: counter(page); }
+.page-count::before { content: counter(pages); }
+
+body {
+  margin: 0; padding: 0 5pt;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 11pt; line-height: 1.2; color: #000000;
+}
+.helv { font-family: Helvetica, Arial, sans-serif; }
+
+h1.doc-title { margin: 22pt 0 0; text-align: center; font-size: 18pt; font-weight: bold; }
+h1.doc-title span { border-bottom: 1.2pt solid #000000; padding-bottom: 1pt; }
+.address { margin-top: 12pt; line-height: 16.5pt; }
+.as-on { margin: 10pt 0 0; text-align: right; }
+
+h2.section { margin: 12pt 0 8pt; font-size: 13pt; font-weight: bold; color: #004180; }
+h2.section.center { text-align: center; margin-top: 32pt; }
+.note { margin: 14pt 0 0; font-size: 10pt; font-weight: bold; color: #004180; }
+
+table.grid { width: 100%; border-collapse: collapse; table-layout: fixed; -fs-table-paginate: paginate; }
+table.grid th, table.grid td { border: 0.75pt solid #000000; }
+table.grid thead th {
+  background-color: #003366; color: #ffffff; font-family: Helvetica, Arial, sans-serif;
+  font-size: 10pt; font-weight: bold; text-align: center; vertical-align: top; padding: 2pt 3pt;
+}
+thead { display: table-header-group; }
+tr { page-break-inside: avoid; }
+
+table.details td { height: 20pt; padding: 0 5pt; vertical-align: middle; }
+table.details td.label { font-size: 10pt; font-weight: bold; }
+
+table.txns td { padding: 1pt 2pt; text-align: center; vertical-align: middle; font-size: 10.5pt; }
+table.txns td.desc { text-align: left; vertical-align: top; word-wrap: break-word; }
+.empty { margin: 0; padding: 8pt; border: 0.75pt solid #000000; text-align: center; }
+
+table.summary td { text-align: center; padding: 2pt; }
+table.insurance td { text-align: center; vertical-align: middle; padding: 4pt 3pt; font-size: 10pt; }
+table.insurance td p { margin: 0 0 11pt; }
+table.insurance td p.last { margin: 0; }
+
+.disclaimer h3 { margin: 40pt 0 2pt; font-size: 10pt; font-weight: bold; color: #004180; }
+.disclaimer p { margin: 0; line-height: 16.5pt; }
+.disclaimer .gap { margin-top: 22pt; }
+.end { margin-top: 30pt; text-align: center; font-size: 10pt; font-weight: bold; color: #004180; }
+
+/* ---------- Browser preview only ----------
+   Browsers ignore running elements, @page margin boxes and counter(pages), so without this the banner
+   and footer sit inline at the top. OpenHTMLtoPDF and print use print media, so the PDF is unaffected. */
+@media screen {
+  html { background: #e5e7eb; }
+  body { position: relative; box-sizing: border-box; width: 595pt; margin: 16pt auto; padding: 82pt 36pt 62pt; background: #ffffff; }
+  .page-header { position: absolute; top: 0; left: 31pt; right: 31pt; }
+  .page-header img { width: 100%; height: auto; }
+  .page-footer { position: absolute; bottom: 0; left: 31pt; right: 31pt; }
+  .page-footer .pages { display: none; }
+}

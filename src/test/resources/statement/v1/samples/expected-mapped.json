@@ -1,0 +1,36 @@
+{
+  "accountNumber": "10000000000001",
+  "periodFrom": "20200101",
+  "periodTo": "20240601",
+  "transactions": [
+    {
+      "transactionDate": "20240410",
+      "valueDate": "20240410",
+      "description": "TEST CREDIT-REF0001",
+      "amount": "14400",
+      "drCr": "C",
+      "balance": "14400.00"
+    },
+    {
+      "transactionDate": "20240423",
+      "valueDate": "20240423",
+      "description": "NEFT DR-REF0002-TEST BANK-TEST PAYEE",
+      "amount": "200",
+      "drCr": "D",
+      "balance": "14200.00"
+    }
+  ],
+  "customerName": null,
+  "address": null,
+  "statementDate": "20240601",
+  "accountType": null,
+  "branchDetails": null,
+  "customerId": null,
+  "ifsc": null,
+  "micrCode": null,
+  "openingBalance": null,
+  "totalCredits": null,
+  "totalDebits": null,
+  "closingBalance": null,
+  "generatedAt": "2024-06-01T10:00:00"
+}
