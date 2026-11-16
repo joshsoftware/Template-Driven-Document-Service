@@ -7,7 +7,7 @@ import tools.jackson.databind.JsonNode;
 
 import java.util.Map;
 
-// Load-time check of the mapping against the contract, at every nesting level
+// Checks the mapping against the contract before a version is saved, at every nesting level
 final class MappingConfigChecker {
 
     private final SystemFunctions system;
@@ -47,7 +47,7 @@ final class MappingConfigChecker {
                 if (field.type() != produces) {
                     throw MappingErrors.fail(name, "%s needs a %s field".formatted(text, produces.name().toLowerCase()));
                 }
-                // Run once now, so a missing or broken date format fails at load, not on a request
+                // Run once now, so a missing or broken date format fails before saving, not on a request
                 system.evaluate(text, formats, name);
             } else {
                 PayloadPath.parse(text, name);
