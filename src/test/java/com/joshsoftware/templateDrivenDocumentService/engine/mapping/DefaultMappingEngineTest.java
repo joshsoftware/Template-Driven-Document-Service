@@ -13,19 +13,15 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
-import tools.jackson.databind.node.ObjectNode;
 
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -40,11 +36,6 @@ class DefaultMappingEngineTest {
     private final MappingEngine engine = new DefaultMappingEngine(CLOCK);
 
     // ---- the real statement config ----
-
-    @Test
-    void statementMappingMatchesStatementContract() {
-        assertThatCode(() -> engine.checkConfig(statement())).doesNotThrowAnyException();
-    }
 
     @ParameterizedTest(name = "{0} -> {1}")
     @CsvSource({
@@ -121,130 +112,56 @@ class DefaultMappingEngineTest {
                         "{'X':{'Y':{'Z':'deep'}}}", "{'a':{'b':{'c':'deep'}}}"));
     }
 
-    // ---- checkConfig: one base config, each row breaks one thing ----
-
-    // Covers every form: path, system, list, select, nested select {}
-    private static final String VALID = """
-            {'name':'Customer.Name', 'today':'system.today()', 'note':null,
-             'rows':{'from':'Rows','map':{'amount':'Amt'}},
-             'address':{'from':'Addr','select':{'Type':'R'},
-                        'map':{'city':'City','geo':{'from':'Geo','select':{},'map':{'pin':'Pin','area':'Area'}}}}}""";
-
-    @Test
-    void acceptsEveryFormWhenItMatchesTheContract() {
-        assertThatCode(() -> engine.checkConfig(checkDefinition(json(VALID), STATEMENT_FORMATS)))
-                .doesNotThrowAnyException();
-    }
+    // ---- broken mapping forms fail when transform reaches them ----
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("brokenConfigs")
-    void rejectsBrokenConfigNamingTheField(String scenario, String pointer, String value, String message) {
-        ObjectNode transform = (ObjectNode) json(VALID);
-        patch(transform, pointer, value);
+    @MethodSource("brokenForms")
+    void rejectsBrokenFormNamingTheField(String scenario, String transform, String message) {
+        DocumentDefinition def = definition(Map.of("v", TEXT), STATEMENT_FORMATS, json(transform));
 
-        assertThatThrownBy(() -> engine.checkConfig(checkDefinition(transform, STATEMENT_FORMATS)))
+        assertThatThrownBy(() -> engine.transform(def, json("{'Rows':[{}]}")))
                 .isInstanceOf(InvalidDefinitionException.class)
                 .hasMessage(message);
     }
 
-    static Stream<Arguments> brokenConfigs() {
+    static Stream<Arguments> brokenForms() {
         return Stream.of(
-                arguments("empty path segment", "/name", "'A..B'", "mapping field 'name': bad path"),
-                arguments("bad index", "/name", "'A[x]'", "mapping field 'name': bad path"),
-                arguments("index too large", "/name", "'A[99999999999]'", "mapping field 'name': bad path"),
-                arguments("nested bad path", "/rows/map/amount", "'Amt.'", "mapping field 'rows.amount': bad path"),
-                arguments("unknown system function", "/today", "'system.yesterday()'",
-                        "mapping field 'today': unknown system function"),
-                arguments("system function without ()", "/today", "'system.today'",
-                        "mapping field 'today': bad system function"),
-                arguments("number instead of a rule", "/name", "5",
-                        "mapping field 'name': must be a path, system function, object or null"),
-                arguments("list without from", "/rows/from", null, "mapping field 'rows': needs from"),
-                arguments("list without map", "/rows/map", null, "mapping field 'rows': needs map"),
-                arguments("from with bad path", "/rows/from", "'Rows..'", "mapping field 'rows': bad from path"),
-                arguments("system.now() on a date field", "/today", "'system.now()'",
-                        "mapping field 'today': system.now() needs a datetime field"),
-                arguments("system.today() on a text field", "/name", "'system.today()'",
-                        "mapping field 'name': system.today() needs a date field"),
-                arguments("unknown key in a form", "/rows/where", "'x'", "mapping field 'rows': unknown key 'where'"),
-                arguments("select value not a string", "/address/select", "{'Type':1}",
-                        "mapping field 'address': select must be an object of strings"),
-                arguments("select on an array field", "/rows/select", "{}",
-                        "mapping field 'rows': select needs an object field"),
-                arguments("list on an object field", "/address/select", null,
-                        "mapping field 'address': from/map needs an array of objects field"),
-                arguments("key not in contract", "/extra", "'X'", "mapping field 'extra': not in contract"),
-                arguments("nested key not in contract", "/address/map/zip", "'Zip'",
-                        "mapping field 'address.zip': not in contract"),
-                arguments("contract field not mapped", "/name", null,
-                        "mapping field 'name': has no mapping (use null if not supplied)"),
-                arguments("nested contract field not mapped", "/address/map/geo/map/pin", null,
-                        "mapping field 'address.geo.pin': has no mapping (use null if not supplied)"));
+                arguments("empty path segment", "{'v':'A..B'}", "mapping field 'v': bad path"),
+                arguments("bad index", "{'v':'A[x]'}", "mapping field 'v': bad path"),
+                arguments("index too large", "{'v':'A[99999999999]'}", "mapping field 'v': bad path"),
+                arguments("nested bad path", "{'v':{'from':'Rows','map':{'amt':'Amt.'}}}", "mapping field 'v.amt': bad path"),
+                arguments("unknown system function", "{'v':'system.yesterday()'}",
+                        "mapping field 'v': unknown system function"),
+                arguments("system function without ()", "{'v':'system.today'}", "mapping field 'v': bad system function"),
+                arguments("number instead of a rule", "{'v':5}",
+                        "mapping field 'v': must be a path, system function, object or null"),
+                arguments("list without from", "{'v':{'map':{'amt':'Amt'}}}", "mapping field 'v': needs from"),
+                arguments("list without map", "{'v':{'from':'Rows'}}", "mapping field 'v': needs map"),
+                arguments("from with bad path", "{'v':{'from':'Rows..','map':{'amt':'Amt'}}}",
+                        "mapping field 'v': bad from path"),
+                arguments("unknown key in a form", "{'v':{'from':'Rows','where':'x','map':{'amt':'Amt'}}}",
+                        "mapping field 'v': unknown key 'where'"),
+                arguments("select value not a string", "{'v':{'from':'Rows','select':{'Type':1},'map':{'amt':'Amt'}}}",
+                        "mapping field 'v': select must be an object of strings"));
     }
 
     // A template with no dates needs no dateFormats, one that calls system.* does
     @Test
     void requiresDateFormatsOnlyWhenUsed() {
-        ObjectNode noDates = (ObjectNode) json(VALID);
-        noDates.putNull("today");
+        DocumentDefinition noDates = definition(Map.of("v", TEXT), DateFormats.NONE, json("{'v':'A'}"));
+        DocumentDefinition withDates = definition(Map.of("v", TEXT), DateFormats.NONE, json("{'v':'system.today()'}"));
 
-        assertThatCode(() -> engine.checkConfig(checkDefinition(noDates, DateFormats.NONE)))
-                .doesNotThrowAnyException();
-        assertThatThrownBy(() -> engine.checkConfig(checkDefinition(json(VALID), DateFormats.NONE)))
+        assertThat(engine.transform(noDates, json("{'A':'x'}"))).isEqualTo(json("{'v':'x'}"));
+        assertThatThrownBy(() -> engine.transform(withDates, json("{}")))
                 .isInstanceOf(InvalidDefinitionException.class)
-                .hasMessage("mapping field 'today': dateFormats.date is required");
+                .hasMessage("mapping field 'v': dateFormats.date is required");
     }
 
     // ---- helpers ----
 
-    private static DocumentDefinition checkDefinition(JsonNode transform, DateFormats formats) {
-        Map<String, ContractField> contract = new LinkedHashMap<>();
-        contract.put("name", TEXT);
-        contract.put("today", ContractField.scalar(FieldType.DATE, true));
-        contract.put("note", ContractField.scalar(FieldType.STRING, false));
-        contract.put("rows", ContractField.array(true,
-                ContractField.object(false, Map.of("amount", ContractField.scalar(FieldType.NUMBER, true)))));
-        contract.put("address", ContractField.object(true, Map.of(
-                "city", TEXT,
-                "geo", ContractField.object(false, Map.of("pin", TEXT, "area", TEXT)))));
-        return definition(contract, formats, transform);
-    }
-
-    // Hand-built copy of statement/v1/contract.json until the parser exists (step 5)
+    // The contract is not used by transform, so any valid one will do
     private static DocumentDefinition statement() {
-        ContractField date = ContractField.scalar(FieldType.DATE, true);
-        ContractField number = ContractField.scalar(FieldType.NUMBER, true);
-        Map<String, ContractField> address = new LinkedHashMap<>();
-        address.put("lines", ContractField.array(true, ContractField.scalar(FieldType.STRING, false)));
-        address.put("city", TEXT);
-        address.put("state", TEXT);
-        address.put("pinCode", TEXT);
-        address.put("country", ContractField.scalar(FieldType.STRING, false));
-        Map<String, ContractField> row = new LinkedHashMap<>();
-        row.put("transactionDate", date);
-        row.put("valueDate", date);
-        row.put("description", TEXT);
-        row.put("amount", number);
-        row.put("drCr", ContractField.enumOf(true, List.of("D", "C")));
-        row.put("balance", number);
-
-        Map<String, ContractField> contract = new LinkedHashMap<>();
-        contract.put("customerName", TEXT);
-        contract.put("address", ContractField.object(true, address));
-        contract.put("statementDate", date);
-        for (String key : List.of("accountNumber", "accountType", "branchDetails", "customerId", "ifsc", "micrCode")) {
-            contract.put(key, TEXT);
-        }
-        contract.put("periodFrom", date);
-        contract.put("periodTo", date);
-        contract.put("transactions", ContractField.array(true, ContractField.object(false, row)));
-        for (String key : List.of("openingBalance", "totalCredits", "totalDebits", "closingBalance")) {
-            contract.put(key, number);
-        }
-        contract.put("generatedAt", ContractField.scalar(FieldType.DATETIME, true));
-
-        JsonNode mapping = Fixtures.json("mapping.json");
-        return definition(contract, STATEMENT_FORMATS, mapping.get("transform"));
+        return definition(Map.of("v", TEXT), STATEMENT_FORMATS, Fixtures.json("mapping.json").get("transform"));
     }
 
     private static DocumentDefinition definition(Map<String, ContractField> contract, DateFormats formats,
@@ -274,18 +191,6 @@ class DefaultMappingEngineTest {
                 return now;
             }
         };
-    }
-
-    // Sets or (when value is null) removes the node at a JSON pointer
-    private static void patch(ObjectNode root, String pointer, String value) {
-        int slash = pointer.lastIndexOf('/');
-        ObjectNode parent = (ObjectNode) root.at(pointer.substring(0, slash));
-        String key = pointer.substring(slash + 1);
-        if (value == null) {
-            parent.remove(key);
-        } else {
-            parent.set(key, json(value));
-        }
     }
 
     // Single quotes keep the tables readable

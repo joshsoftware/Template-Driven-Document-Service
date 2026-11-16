@@ -16,12 +16,6 @@ public final class DefaultMappingEngine implements MappingEngine {
     }
 
     @Override
-    public void checkConfig(DocumentDefinition def) {
-        new MappingConfigChecker(SystemFunctions.readAt(clock), def.dateFormats())
-                .checkObject(def.transform(), def.contract(), "");
-    }
-
-    @Override
     public JsonNode transform(DocumentDefinition def, JsonNode payload) {
         return new PayloadTransformer(SystemFunctions.readAt(clock), def.dateFormats())
                 .mapObject(def.transform(), payload, "");

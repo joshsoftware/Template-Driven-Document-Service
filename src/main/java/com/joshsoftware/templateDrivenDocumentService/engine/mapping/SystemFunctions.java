@@ -1,7 +1,6 @@
 package com.joshsoftware.templateDrivenDocumentService.engine.mapping;
 
 import com.joshsoftware.templateDrivenDocumentService.engine.definition.DateFormats;
-import com.joshsoftware.templateDrivenDocumentService.engine.definition.FieldType;
 
 import java.time.Clock;
 import java.time.DateTimeException;
@@ -31,24 +30,17 @@ final class SystemFunctions {
         return text.startsWith(PREFIX);
     }
 
-    // The contract type a call produces: today -> DATE, now -> DATETIME
-    static FieldType type(String text, String field) {
+    String evaluate(String text, DateFormats formats, String field) {
         Matcher m = CALL.matcher(text);
         if (!m.matches()) {
             throw MappingErrors.fail(field, "bad system function");
         }
-        return switch (m.group(1)) {
-            case "today" -> FieldType.DATE;
-            case "now" -> FieldType.DATETIME;
-            default -> throw MappingErrors.fail(field, "unknown system function");
-        };
-    }
-
-    String evaluate(String text, DateFormats formats, String field) {
         try {
-            return type(text, field) == FieldType.DATE
-                    ? now.toLocalDate().format(required(formats.date(), "date", field))
-                    : now.format(required(formats.datetime(), "datetime", field));
+            return switch (m.group(1)) {
+                case "today" -> now.toLocalDate().format(required(formats.date(), "date", field));
+                case "now" -> now.format(required(formats.datetime(), "datetime", field));
+                default -> throw MappingErrors.fail(field, "unknown system function");
+            };
         } catch (DateTimeException e) {
             throw MappingErrors.fail(field, "date format cannot print this value", e);
         }
