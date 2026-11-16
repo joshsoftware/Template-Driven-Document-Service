@@ -6,6 +6,7 @@ import com.joshsoftware.templateDrivenDocumentService.engine.definition.Document
 import com.joshsoftware.templateDrivenDocumentService.engine.definition.FieldType;
 import com.joshsoftware.templateDrivenDocumentService.support.Fixtures;
 import com.joshsoftware.templateDrivenDocumentService.support.SampleCase;
+import com.joshsoftware.templateDrivenDocumentService.support.StatementDefinition;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -41,7 +42,7 @@ class DefaultMappingEngineTest {
     void mapsBankPayloadToContractShape(SampleCase sample) {
         JsonNode input = Fixtures.json(sample.payload());
 
-        JsonNode mapped = engine.transform(statement(), input);
+        JsonNode mapped = engine.transform(StatementDefinition.load(), input);
 
         assertThat(mapped).isEqualTo(Fixtures.json(sample.expected()));
         // The engine must leave the caller's payload alone
@@ -119,11 +120,6 @@ class DefaultMappingEngineTest {
     }
 
     // ---- helpers ----
-
-    // The contract is not used by transform, so any valid one will do
-    private static DocumentDefinition statement() {
-        return definition(Map.of("v", TEXT), STATEMENT_FORMATS, Fixtures.json("mapping.json").get("transform"));
-    }
 
     private static DocumentDefinition definition(Map<String, ContractField> contract, DateFormats formats,
                                                  JsonNode transform) {
