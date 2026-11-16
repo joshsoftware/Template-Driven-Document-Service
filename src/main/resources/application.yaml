@@ -10,4 +10,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-    
+server:
+  port: ${PORT}
+logging:
+  pattern:
+    # Adds the MDC request id and job id (set by RequestIdFilter) to every log line.
+    correlation: "[requestId=%X{requestId:-} jobId=%X{jobId:-}] "
