@@ -26,15 +26,15 @@ public class GenerateDocumentController {
     public ResponseEntity<ApiResponse<Void>> generateDocument(@Valid @RequestBody GenerateDocumentRequestDTO request) {
         long start = System.currentTimeMillis();
         // Never log the payload: it holds customer data.
-        log.info("[GenerateDocumentController#generateDocument] start docType={} channel={}",
-                request.getDocType(), request.getChannel());
+        log.info("[GenerateDocumentController#generateDocument] start templateId={} channel={}",
+                request.getTemplateId(), request.getChannel());
 
         String requestId = MDC.get(MdcConstants.REQUEST_ID);
         // TODO: call DocumentGenerationService.generate(request, requestId) and return
         //  GenerateDocumentResponseDTO(jobId, status) once the service exists.
 
-        log.info("[GenerateDocumentController#generateDocument] end docType={} requestId={} durationMs={}",
-                request.getDocType(), requestId, System.currentTimeMillis() - start);
+        log.info("[GenerateDocumentController#generateDocument] end templateId={} requestId={} durationMs={}",
+                request.getTemplateId(), requestId, System.currentTimeMillis() - start);
         return ResponseEntity.ok(ApiResponse.success("Document generation request accepted", null));
     }
 }

@@ -25,7 +25,7 @@ class GenerateDocumentControllerTest {
 
     private static final String URL = "/api/v1/generate-statement";
     private static final String VALID_BODY = """
-            {"docType":"statement","channel":"MOBILE",
+            {"templateId":"123dbjhbfjh","channel":"MOBILE",
              "payload":{"userId":"2026","templateId":"generate-statement"}}""";
 
     @Autowired
@@ -46,14 +46,14 @@ class GenerateDocumentControllerTest {
     void missingFieldsGiveInvalidRequestWithViolations() throws Exception {
         mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON)
                         .header(HeaderConstants.X_REQUEST_ID, "req-2")
-                        .content("{\"docType\":\"Bad Type!\"}"))
+                        .content("{\"templateId\":\"Bad Id!\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errorCode").value("INVALID_REQUEST"))
                 .andExpect(jsonPath("$.requestId").value("req-2"))
                 .andExpect(jsonPath("$.violations.length()").value(3))
                 .andExpect(jsonPath("$.violations[?(@.field=='channel')].rule").value("NotNull"))
                 .andExpect(jsonPath("$.violations[?(@.field=='payload')].rule").value("NotEmpty"))
-                .andExpect(jsonPath("$.violations[?(@.field=='docType')].rule").value("Pattern"));
+                .andExpect(jsonPath("$.violations[?(@.field=='templateId')].rule").value("Pattern"));
     }
 
     @Test
@@ -67,7 +67,7 @@ class GenerateDocumentControllerTest {
     @Test
     void nonObjectPayloadGivesInvalidRequest() throws Exception {
         mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"docType\":\"statement\",\"channel\":\"MOBILE\",\"payload\":\"text\"}"))
+                        .content("{\"templateId\":\"123dbjhbfjh\",\"channel\":\"MOBILE\",\"payload\":\"text\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errorCode").value("INVALID_REQUEST"));
     }
@@ -75,7 +75,7 @@ class GenerateDocumentControllerTest {
     @Test
     void emptyPayloadGivesInvalidRequest() throws Exception {
         mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"docType\":\"statement\",\"channel\":\"MOBILE\",\"payload\":{}}"))
+                        .content("{\"templateId\":\"123dbjhbfjh\",\"channel\":\"MOBILE\",\"payload\":{}}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errorCode").value("INVALID_REQUEST"))
                 .andExpect(jsonPath("$.violations[0].field").value("payload"))
@@ -86,7 +86,7 @@ class GenerateDocumentControllerTest {
     @ValueSource(strings = {"MOBILE", "NET_BANKING", "WHATSAPP"})
     void supportedChannelsAreAccepted(String channel) throws Exception {
         mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"docType\":\"statement\",\"channel\":\"" + channel + "\",\"payload\":{\"a\":1}}"))
+                        .content("{\"templateId\":\"123dbjhbfjh\",\"channel\":\"" + channel + "\",\"payload\":{\"a\":1}}"))
                 .andExpect(status().isOk());
     }
 
@@ -94,19 +94,19 @@ class GenerateDocumentControllerTest {
     @ValueSource(strings = {"FAX", "API", "mobile", ""})
     void unsupportedChannelGivesInvalidRequest(String channel) throws Exception {
         mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"docType\":\"statement\",\"channel\":\"" + channel + "\",\"payload\":{\"a\":1}}"))
+                        .content("{\"templateId\":\"123dbjhbfjh\",\"channel\":\"" + channel + "\",\"payload\":{\"a\":1}}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errorCode").value("INVALID_REQUEST"));
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"invoice", "Statement", "statement-v2", " statement"})
-    void unsupportedDocTypeGivesInvalidRequest(String docType) throws Exception {
+    @ValueSource(strings = {"abc-123", "abc_123", "abc 123", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"})
+    void invalidTemplateIdGivesInvalidRequest(String templateId) throws Exception {
         mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"docType\":\"" + docType + "\",\"channel\":\"MOBILE\",\"payload\":{\"a\":1}}"))
+                        .content("{\"templateId\":\"" + templateId + "\",\"channel\":\"MOBILE\",\"payload\":{\"a\":1}}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errorCode").value("INVALID_REQUEST"))
-                .andExpect(jsonPath("$.violations[0].field").value("docType"))
+                .andExpect(jsonPath("$.violations[0].field").value("templateId"))
                 .andExpect(jsonPath("$.violations[0].rule").value("Pattern"));
     }
 

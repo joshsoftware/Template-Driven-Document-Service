@@ -19,10 +19,10 @@ import java.util.Map;
 @NoArgsConstructor
 public class GenerateDocumentRequestDTO {
 
-    // Document type code. Only "statement" is supported for now; add new types to the pattern.
+    // Id of the template to generate the document from. Letters and digits only, 1 to 50 characters.
     @NotBlank
-    @Pattern(regexp = "^statement$")
-    private String docType;
+    @Pattern(regexp = "^[A-Za-z0-9]{1,50}$")
+    private String templateId;
 
     // One of MOBILE (mobile banking), NET_BANKING (net banking), WHATSAPP (WhatsApp banking).
     // An unknown value cannot be read into the enum and gives 400 INVALID_REQUEST.
