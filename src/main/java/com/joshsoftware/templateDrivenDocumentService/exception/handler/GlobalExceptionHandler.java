@@ -5,6 +5,7 @@ import com.joshsoftware.templateDrivenDocumentService.dto.ErrorResponse;
 import com.joshsoftware.templateDrivenDocumentService.dto.ViolationDTO;
 import com.joshsoftware.templateDrivenDocumentService.engine.exception.DataContractViolationException;
 import com.joshsoftware.templateDrivenDocumentService.engine.exception.EngineException;
+import com.joshsoftware.templateDrivenDocumentService.engine.exception.InvalidDefinitionException;
 import com.joshsoftware.templateDrivenDocumentService.engine.exception.MappingException;
 import com.joshsoftware.templateDrivenDocumentService.engine.exception.RenderException;
 import com.joshsoftware.templateDrivenDocumentService.enums.ErrorCode;
@@ -41,8 +42,8 @@ public class GlobalExceptionHandler {
         return build(ErrorCode.DATA_CONTRACT_VIOLATION, violations);
     }
 
-    // Mapping config is broken or PDF rendering failed. Returns 500.
-    @ExceptionHandler({MappingException.class, RenderException.class})
+    // Template config or mapping is broken, or PDF rendering failed. Returns 500.
+    @ExceptionHandler({InvalidDefinitionException.class, MappingException.class, RenderException.class})
     public ResponseEntity<ErrorResponse> handleEngineException(EngineException ex) {
         ErrorCode code = ErrorCode.from(ex);
         log.error("[GlobalExceptionHandler#handleEngineException] errorCode={} type={} causeType={}",
