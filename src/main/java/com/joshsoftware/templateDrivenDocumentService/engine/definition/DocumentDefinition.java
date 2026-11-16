@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 // One template version, ready to run: template, contract and mapping versioned together
+// Shared once loaded: transform is a JsonNode Jackson can't make read-only, so callers must never mutate it
 public record DocumentDefinition(
         UUID templateVersionId,
         String templateId,
