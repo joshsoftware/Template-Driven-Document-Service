@@ -6,6 +6,6 @@ import com.joshsoftware.templateDrivenDocumentService.enums.ErrorCode;
 public class ConfigNotFoundException extends AppException {
 
     public ConfigNotFoundException(String templateId) {
-        super(ErrorCode.CONFIG_NOT_FOUND, "No ACTIVE template for docType=%s".formatted(templateId));
+        super(ErrorCode.CONFIG_NOT_FOUND, "No ACTIVE template for templateId=%s".formatted(templateId));
     }
 }
