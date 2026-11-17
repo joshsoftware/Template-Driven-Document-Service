@@ -29,10 +29,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import({GlobalExceptionHandler.class, RequestIdFilter.class})
 class GenerateDocumentControllerTest {
 
-    private static final String URL = "/api/v1/generate-statement";
+    private static final String URL = "/api/v1/generate-document";
     private static final String VALID_BODY = """
             {"templateId":"123dbjhbfjh","channel":"MOBILE",
-             "payload":{"userId":"2026","templateId":"generate-statement"}}""";
+             "payload":{"userId":"2026","templateId":"generate-document"}}""";
 
     @Autowired
     private MockMvc mockMvc;

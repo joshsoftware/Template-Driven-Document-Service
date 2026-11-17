@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tools.jackson.databind.JsonNode;
 
-// Request body for POST /api/v1/generate-statement.
+// Request body for POST /api/v1/generate-document.
 // The envelope is the same for every document type; only payload differs.
 // Failed checks are turned into a 400 INVALID_REQUEST by GlobalExceptionHandler.
 @Getter

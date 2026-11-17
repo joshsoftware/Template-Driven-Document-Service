@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 // are all handled there.
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/generate-statement")
+@RequestMapping("/api/v1/generate-document")
 public class GenerateDocumentController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
