@@ -16,7 +16,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
-import tools.jackson.databind.node.ObjectNode;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -51,33 +50,19 @@ class DefaultContractValidatorTest {
 
     // ---- the real statement ----
 
-    // Violations follow contract order; only missing fields, nothing about their children
-    @ParameterizedTest(name = "{0}")
-    @MethodSource("statementSamples")
-    void reportsEveryMissingStatementField(String sample, List<String> missing) {
-        assertViolations(STATEMENT, Fixtures.json(sample),
-                missing.stream().map(field -> tuple(field, "REQUIRED")).toArray(Tuple[]::new));
-    }
-
-    static Stream<Arguments> statementSamples() {
-        List<String> balances = List.of("openingBalance", "totalCredits", "totalDebits", "closingBalance");
-        return Stream.of(
-                arguments("samples/expected-mapped.json", List.of("customerName", "address", "accountType",
-                        "branchDetails", "customerId", "ifsc", "micrCode",
-                        balances.get(0), balances.get(1), balances.get(2), balances.get(3))),
-                arguments("samples/expected-mapped-complete.json", balances));
+    // payload.json has no customer details or summary: violations follow contract order, children not listed
+    @Test
+    void reportsEveryMissingStatementField() {
+        assertViolations(STATEMENT, Fixtures.json("samples/expected-mapped.json"), Stream.of(
+                        "customerName", "address", "accountType", "branchDetails", "customerId", "ifsc", "micrCode",
+                        "openingBalance", "totalCredits", "totalDebits", "closingBalance")
+                .map(field -> tuple(field, "REQUIRED")).toArray(Tuple[]::new));
     }
 
     @Test
     @SuppressWarnings("unchecked")
     void buildsTheTypedStatementModel() {
-        ObjectNode mapped = (ObjectNode) Fixtures.json("samples/expected-mapped-complete.json");
-        mapped.put("openingBalance", "0.00");
-        mapped.put("totalCredits", "14400.00");
-        mapped.put("totalDebits", "200.00");
-        mapped.put("closingBalance", "14200.00");
-
-        Map<String, Object> model = validator.validate(STATEMENT, mapped);
+        Map<String, Object> model = validator.validate(STATEMENT, Fixtures.json("samples/expected-mapped-complete.json"));
 
         assertThat(model.keySet()).containsExactlyElementsOf(STATEMENT.contract().keySet());
         assertThat(model)
