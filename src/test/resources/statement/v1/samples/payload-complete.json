@@ -43,6 +43,12 @@
     "IFSC": "TEST0000001",
     "MICR": "000000"
   },
+  "AccountSummary": {
+    "OpeningBalance": "0.00",
+    "TotalCredits": "14400.00",
+    "TotalDebits": "200.00",
+    "ClosingBalance": "14200.00"
+  },
   "AccountStatement": [
     {
       "Documentindex": "TESTDOCINDEX0001",

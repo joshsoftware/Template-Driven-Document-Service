@@ -38,9 +38,9 @@
       "balance": "14200.00"
     }
   ],
-  "openingBalance": null,
-  "totalCredits": null,
-  "totalDebits": null,
-  "closingBalance": null,
+  "openingBalance": "0.00",
+  "totalCredits": "14400.00",
+  "totalDebits": "200.00",
+  "closingBalance": "14200.00",
   "generatedAt": "2024-06-01T10:00:00"
 }

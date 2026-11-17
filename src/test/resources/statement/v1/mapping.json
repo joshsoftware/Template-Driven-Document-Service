@@ -28,9 +28,9 @@
     "micrCode":       "AccountDetails.MICR",
     "statementDate":  "system.today()",
     "generatedAt":    "system.now()",
-    "openingBalance": null,
-    "totalCredits":   null,
-    "totalDebits":    null,
-    "closingBalance": null
+    "openingBalance": "AccountSummary.OpeningBalance",
+    "totalCredits":   "AccountSummary.TotalCredits",
+    "totalDebits":    "AccountSummary.TotalDebits",
+    "closingBalance": "AccountSummary.ClosingBalance"
   }
 }
