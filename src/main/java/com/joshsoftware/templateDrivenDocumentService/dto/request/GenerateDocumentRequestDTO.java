@@ -1,15 +1,14 @@
 package com.joshsoftware.templateDrivenDocumentService.dto.request;
 
+import com.joshsoftware.templateDrivenDocumentService.annotation.NonEmptyJsonObject;
 import com.joshsoftware.templateDrivenDocumentService.enums.Channel;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Map;
+import tools.jackson.databind.JsonNode;
 
 // Request body for POST /api/v1/generate-statement.
 // The envelope is the same for every document type; only payload differs.
@@ -31,7 +30,9 @@ public class GenerateDocumentRequestDTO {
 
     // Document data. Must be a non-empty JSON object; null, {} or a non-object give 400 INVALID_REQUEST.
     // Its fields are dynamic and checked later against the data contract, not here.
+    // Kept as JsonNode (not Map) so decimals are read as BigDecimal and keep their exact value and scale
+    // (see spring.jackson.deserialization.use-big-decimal-for-floats), and the engine can use it as is.
     // Holds customer data: never log it.
-    @NotEmpty
-    private Map<String, Object> payload;
+    @NonEmptyJsonObject
+    private JsonNode payload;
 }

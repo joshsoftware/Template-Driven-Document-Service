@@ -1,6 +1,7 @@
 package com.joshsoftware.templateDrivenDocumentService.controller;
 
 import com.joshsoftware.templateDrivenDocumentService.constants.HeaderConstants;
+import com.joshsoftware.templateDrivenDocumentService.dto.request.GenerateDocumentRequestDTO;
 import com.joshsoftware.templateDrivenDocumentService.exception.handler.GlobalExceptionHandler;
 import com.joshsoftware.templateDrivenDocumentService.util.filter.RequestIdFilter;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,12 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
+import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -30,6 +36,9 @@ class GenerateDocumentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     void validRequestReturnsApiResponse() throws Exception {
@@ -52,7 +61,7 @@ class GenerateDocumentControllerTest {
                 .andExpect(jsonPath("$.requestId").value("req-2"))
                 .andExpect(jsonPath("$.violations.length()").value(3))
                 .andExpect(jsonPath("$.violations[?(@.field=='channel')].rule").value("NotNull"))
-                .andExpect(jsonPath("$.violations[?(@.field=='payload')].rule").value("NotEmpty"))
+                .andExpect(jsonPath("$.violations[?(@.field=='payload')].rule").value("NonEmptyJsonObject"))
                 .andExpect(jsonPath("$.violations[?(@.field=='templateId')].rule").value("Pattern"));
     }
 
@@ -79,7 +88,33 @@ class GenerateDocumentControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errorCode").value("INVALID_REQUEST"))
                 .andExpect(jsonPath("$.violations[0].field").value("payload"))
-                .andExpect(jsonPath("$.violations[0].rule").value("NotEmpty"));
+                .andExpect(jsonPath("$.violations[0].rule").value("NonEmptyJsonObject"));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"\"text\"", "123", "[]", "[{\"a\":1}]", "null"})
+    void nonObjectPayloadGivesPayloadViolation(String payload) throws Exception {
+        mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"templateId\":\"123dbjhbfjh\",\"channel\":\"MOBILE\",\"payload\":" + payload + "}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errorCode").value("INVALID_REQUEST"))
+                .andExpect(jsonPath("$.violations[0].field").value("payload"))
+                .andExpect(jsonPath("$.violations[0].rule").value("NonEmptyJsonObject"));
+    }
+
+    // Amounts must reach the engine exactly as sent: no Double rounding, no lost scale.
+    @Test
+    void payloadDecimalsKeepExactValueAndScale() {
+        GenerateDocumentRequestDTO request = objectMapper.readValue("""
+                {"templateId":"abc","channel":"MOBILE",
+                 "payload":{"amount":14400.10,"big":12345678901234567890.123456789}}""",
+                GenerateDocumentRequestDTO.class);
+
+        JsonNode amount = request.getPayload().get("amount");
+        assertThat(amount.isBigDecimal()).isTrue();
+        assertThat(amount.decimalValue()).isEqualTo(new BigDecimal("14400.10"));
+        assertThat(request.getPayload().get("big").decimalValue())
+                .isEqualTo(new BigDecimal("12345678901234567890.123456789"));
     }
 
     @ParameterizedTest
