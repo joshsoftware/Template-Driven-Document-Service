@@ -6,6 +6,10 @@ spring:
     import: optional:file:.env[.properties]
   profiles:
     active: ${SPRING_PROFILES_ACTIVE}
+  jackson:
+    deserialization:
+      # Read JSON decimals as BigDecimal, not Double, so amounts keep their exact value and scale.
+      use-big-decimal-for-floats: true
   jpa:
     properties:
       hibernate:
@@ -19,3 +23,9 @@ spring:
     clean-disabled: true
     baseline-on-migrate: false
     
+server:
+  port: ${PORT:8080}
+logging:
+  pattern:
+    # Adds the MDC request id and job id (set by RequestIdFilter) to every log line.
+    correlation: "[requestId=%X{requestId:-} jobId=%X{jobId:-}] "
