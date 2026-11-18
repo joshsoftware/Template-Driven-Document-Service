@@ -7,7 +7,7 @@ public enum TemplateStatus {
     // Uploaded but not in use yet.
     DRAFT,
 
-    // Used for new documents. Only one active version per document type.
+    // Used for new documents. Only one active version per template_id.
     ACTIVE,
 
     // Turned off. No longer used for new documents.
