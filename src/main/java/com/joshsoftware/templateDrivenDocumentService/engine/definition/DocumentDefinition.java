@@ -38,6 +38,7 @@ public record DocumentDefinition(
         contract = Collections.unmodifiableMap(new LinkedHashMap<>(contract));
         mapping = Collections.unmodifiableMap(new LinkedHashMap<>(mapping));
         MappingReader.checkDates(mapping, dateFormats, "");
+        checkContractDates(contract, dateFormats, "");
     }
 
     // Compiles mapping.json's transform, so a broken rule fails at load, never on a request
@@ -45,5 +46,24 @@ public record DocumentDefinition(
                               Map<String, ContractField> contract, DateFormats dateFormats, JsonNode transform) {
         this(templateVersionId, templateId, version, templateHtml, contract, dateFormats,
                 MappingReader.read(transform));
+    }
+
+    // Every DATE/DATETIME contract field needs its pattern, so a missing one fails at load, not on the first dated payload
+    private static void checkContractDates(Map<String, ContractField> fields, DateFormats formats, String parent) {
+        fields.forEach((key, field) -> checkContractDate(field, formats, parent.isEmpty() ? key : parent + "." + key));
+    }
+
+    private static void checkContractDate(ContractField field, DateFormats formats, String path) {
+        if (field.type() == FieldType.DATE && formats.date() == null) {
+            throw new InvalidDefinitionException("contract field '%s': DATE needs dateFormats.date".formatted(path));
+        }
+        if (field.type() == FieldType.DATETIME && formats.datetime() == null) {
+            throw new InvalidDefinitionException(
+                    "contract field '%s': DATETIME needs dateFormats.datetime".formatted(path));
+        }
+        checkContractDates(field.fields(), formats, path);
+        if (field.items() != null) {
+            checkContractDate(field.items(), formats, path + "[]");
+        }
     }
 }
