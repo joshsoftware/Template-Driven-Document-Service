@@ -1,0 +1,9 @@
+# Sample cases per engine stage. Add a case by adding an entry; names and file paths can be anything.
+# Paths are relative to src/test/resources/statement/v1/
+mapping:
+  - name: minimal statement
+    payload: samples/payload.json
+    expected: samples/expected-mapped.json
+  - name: complete statement
+    payload: samples/payload-complete.json
+    expected: samples/expected-mapped-complete.json

@@ -10,6 +10,7 @@ import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ObjectNode;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -38,8 +39,11 @@ class DocumentDefinitionTest {
         transform.put("ifsc", "Changed.Path");
 
         assertThat(def.contract().keySet()).containsExactly("customerName", "ifsc");
-        assertThat(def.transform().path("ifsc").asString()).isEqualTo("AccountDetails.IFSC");
+        assertThat(def.mapping().get("ifsc")).isEqualTo(new MappingRule.Path(
+                new PayloadPath(List.of(segment("AccountDetails"), segment("IFSC")))));
         assertThatThrownBy(() -> def.contract().put("x", TEXT)).isInstanceOf(UnsupportedOperationException.class);
+        assertThatThrownBy(() -> def.mapping().put("x", new MappingRule.NullValue()))
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 
     @ParameterizedTest(name = "{0}")
@@ -59,6 +63,10 @@ class DocumentDefinitionTest {
                 arguments("statement", 0, contract, transform(), "version must be 1 or more"),
                 arguments("statement", 1, Map.of(), transform(), "contract: needs fields"),
                 arguments("statement", 1, contract, JSON.createArrayNode(), "mapping: transform must be an object"));
+    }
+
+    private static PayloadPath.Segment segment(String name) {
+        return new PayloadPath.Segment(name, List.of());
     }
 
     private static ObjectNode transform() {
