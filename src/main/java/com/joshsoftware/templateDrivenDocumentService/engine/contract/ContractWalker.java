@@ -53,7 +53,7 @@ final class ContractWalker {
         if (value.isContainer()) {
             return wrongType(path);
         }
-        ScalarReader.Result result = ScalarReader.read(field, value, formats, path);
+        ScalarReader.Result result = ScalarReader.read(field, value, formats);
         if (result.rule() != null) {
             violations.add(new Violation(path, result.rule().name()));
         }

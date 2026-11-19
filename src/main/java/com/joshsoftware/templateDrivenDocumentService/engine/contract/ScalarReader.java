@@ -2,7 +2,6 @@ package com.joshsoftware.templateDrivenDocumentService.engine.contract;
 
 import com.joshsoftware.templateDrivenDocumentService.engine.definition.ContractField;
 import com.joshsoftware.templateDrivenDocumentService.engine.definition.DateFormats;
-import com.joshsoftware.templateDrivenDocumentService.engine.exception.InvalidDefinitionException;
 import tools.jackson.databind.JsonNode;
 
 import java.math.BigDecimal;
@@ -30,15 +29,14 @@ final class ScalarReader {
     private ScalarReader() {
     }
 
-    static Result read(ContractField field, JsonNode value, DateFormats formats, String path) {
+    // Date patterns were checked when the definition loaded, so they are present here
+    static Result read(ContractField field, JsonNode value, DateFormats formats) {
         return switch (field.type()) {
             // A JSON number is rejected, not turned into text: it may already have lost leading zeros
             case STRING -> value.isString() ? Result.ok(value.asString()) : Result.fail(ViolationRule.WRONG_TYPE);
             case NUMBER -> number(value);
-            case DATE -> temporal(value, formatter(formats.date(), "DATE", "date", path),
-                    LocalDate::parse, ViolationRule.BAD_DATE);
-            case DATETIME -> temporal(value, formatter(formats.datetime(), "DATETIME", "datetime", path),
-                    LocalDateTime::parse, ViolationRule.BAD_DATETIME);
+            case DATE -> temporal(value, formats.date(), LocalDate::parse, ViolationRule.BAD_DATE);
+            case DATETIME -> temporal(value, formats.datetime(), LocalDateTime::parse, ViolationRule.BAD_DATETIME);
             case ENUM -> value.isString() && field.values().contains(value.asString())
                     ? Result.ok(value.asString())
                     : Result.fail(ViolationRule.NOT_ALLOWED);
@@ -72,14 +70,5 @@ final class ScalarReader {
         } catch (DateTimeParseException e) {
             return Result.fail(rule);
         }
-    }
-
-    // A date field without its pattern is a template config bug, not a payload problem
-    private static DateTimeFormatter formatter(DateTimeFormatter formatter, String type, String name, String path) {
-        if (formatter == null) {
-            throw new InvalidDefinitionException(
-                    "contract field '%s': %s needs dateFormats.%s".formatted(path, type, name));
-        }
-        return formatter;
     }
 }

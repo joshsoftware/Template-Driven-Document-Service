@@ -186,14 +186,32 @@ class DefaultContractValidatorTest {
                 });
     }
 
-    // A date field without its pattern is our config bug (500), not the bank's payload problem (422)
-    @Test
-    void reportsMissingDateFormatAsConfigError() {
-        DocumentDefinition def = definition(Map.of("statementDate", DATE), DateFormats.NONE);
-
-        assertThatThrownBy(() -> validator.validate(def, json("{'statementDate':'20240410'}")))
+    // A date field without its pattern is our config bug, caught at load, before any payload arrives
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("missingDateFormats")
+    void rejectsDateFieldWithoutPatternAtLoad(String scenario, Map<String, ContractField> contract, DateFormats formats,
+                                              String message) {
+        assertThatThrownBy(() -> definition(contract, formats))
                 .isInstanceOf(InvalidDefinitionException.class)
-                .hasMessage("contract field 'statementDate': DATE needs dateFormats.date");
+                .hasMessage(message);
+    }
+
+    static Stream<Arguments> missingDateFormats() {
+        ContractField optionalDate = ContractField.scalar(FieldType.DATE, false);
+        return Stream.of(
+                arguments("date", Map.of("statementDate", DATE), DateFormats.NONE,
+                        "contract field 'statementDate': DATE needs dateFormats.date"),
+                arguments("optional date still needs it", Map.of("periodFrom", optionalDate), DateFormats.NONE,
+                        "contract field 'periodFrom': DATE needs dateFormats.date"),
+                arguments("datetime", Map.of("generatedAt", DATETIME), DateFormats.of("yyyyMMdd", null),
+                        "contract field 'generatedAt': DATETIME needs dateFormats.datetime"),
+                arguments("inside an object", Map.of("a", ContractField.object(true, Map.of("d", DATE))),
+                        DateFormats.NONE, "contract field 'a.d': DATE needs dateFormats.date"),
+                arguments("inside list rows", Map.of("rows", ContractField.array(true,
+                                ContractField.object(false, Map.of("d", DATE)))),
+                        DateFormats.NONE, "contract field 'rows[].d': DATE needs dateFormats.date"),
+                arguments("list of dates", Map.of("days", ContractField.array(true, DATE)),
+                        DateFormats.NONE, "contract field 'days[]': DATE needs dateFormats.date"));
     }
 
     // ---- helpers ----
