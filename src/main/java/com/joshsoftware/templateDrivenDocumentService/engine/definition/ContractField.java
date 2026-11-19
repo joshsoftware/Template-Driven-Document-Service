@@ -22,23 +22,26 @@ public record ContractField(
         fields = fields == null ? Map.of() : Collections.unmodifiableMap(new LinkedHashMap<>(fields));
         values = values == null ? List.of() : List.copyOf(values);
 
-        switch (type) {
-            case OBJECT -> {
-                require(!fields.isEmpty(), "OBJECT needs fields");
-                require(items == null && values.isEmpty(), "OBJECT allows only fields");
-            }
-            case ARRAY -> {
-                require(items != null, "ARRAY needs items");
-                require(fields.isEmpty() && values.isEmpty(), "ARRAY allows only items");
-            }
-            case ENUM -> {
-                require(!values.isEmpty(), "ENUM needs values");
-                require(new HashSet<>(values).size() == values.size(), "ENUM values must be distinct");
-                require(fields.isEmpty() && items == null, "ENUM allows only values");
-            }
-            default -> require(fields.isEmpty() && items == null && values.isEmpty(),
-                    type + " allows no fields, items or values");
+        String problem = problem(type, fields, items, values);
+        if (problem != null) {
+            throw new InvalidDefinitionException("contract field: " + problem);
         }
+    }
+
+    // First shape rule broken, or null; shared so ContractReader can name the field's path
+    static String problem(FieldType type, Map<String, ContractField> fields, ContractField items, List<String> values) {
+        boolean noFields = fields == null || fields.isEmpty();
+        boolean noValues = values == null || values.isEmpty();
+        return switch (type) {
+            case OBJECT -> noFields ? "OBJECT needs fields"
+                    : items != null || !noValues ? "OBJECT allows only fields" : null;
+            case ARRAY -> items == null ? "ARRAY needs items"
+                    : !noFields || !noValues ? "ARRAY allows only items" : null;
+            case ENUM -> noValues ? "ENUM needs values"
+                    : new HashSet<>(values).size() != values.size() ? "ENUM values must be distinct"
+                    : !noFields || items != null ? "ENUM allows only values" : null;
+            default -> !noFields || items != null || !noValues ? type + " allows no fields, items or values" : null;
+        };
     }
 
     public static ContractField scalar(FieldType type, boolean required) {
@@ -55,11 +58,5 @@ public record ContractField(
 
     public static ContractField enumOf(boolean required, List<String> values) {
         return new ContractField(FieldType.ENUM, required, null, null, values);
-    }
-
-    private static void require(boolean condition, String detail) {
-        if (!condition) {
-            throw new InvalidDefinitionException("contract field: " + detail);
-        }
     }
 }
