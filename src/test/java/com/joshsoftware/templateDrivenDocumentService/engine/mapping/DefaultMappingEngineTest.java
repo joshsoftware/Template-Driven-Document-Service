@@ -5,10 +5,10 @@ import com.joshsoftware.templateDrivenDocumentService.engine.definition.DateForm
 import com.joshsoftware.templateDrivenDocumentService.engine.definition.DocumentDefinition;
 import com.joshsoftware.templateDrivenDocumentService.engine.definition.FieldType;
 import com.joshsoftware.templateDrivenDocumentService.support.Fixtures;
+import com.joshsoftware.templateDrivenDocumentService.support.SampleCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
@@ -35,18 +35,21 @@ class DefaultMappingEngineTest {
 
     // ---- the real statement config ----
 
-    @ParameterizedTest(name = "{0} -> {1}")
-    @CsvSource({
-            "samples/payload.json, samples/expected-mapped.json",
-            "samples/payload-complete.json, samples/expected-mapped-complete.json"})
-    void mapsBankPayloadToContractShape(String payload, String expected) {
-        JsonNode input = Fixtures.json(payload);
+    // Cases come from sample-cases.yml under "mapping"
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("mappingCases")
+    void mapsBankPayloadToContractShape(SampleCase sample) {
+        JsonNode input = Fixtures.json(sample.payload());
 
         JsonNode mapped = engine.transform(statement(), input);
 
-        assertThat(mapped).isEqualTo(Fixtures.json(expected));
+        assertThat(mapped).isEqualTo(Fixtures.json(sample.expected()));
         // The engine must leave the caller's payload alone
-        assertThat(input).isEqualTo(Fixtures.json(payload));
+        assertThat(input).isEqualTo(Fixtures.json(sample.payload()));
+    }
+
+    static Stream<SampleCase> mappingCases() {
+        return SampleCase.forStage("mapping");
     }
 
     // A request that runs over midnight must still print one date and one time for the document
