@@ -4,7 +4,6 @@ import com.joshsoftware.templateDrivenDocumentService.engine.definition.Contract
 import com.joshsoftware.templateDrivenDocumentService.engine.definition.DateFormats;
 import com.joshsoftware.templateDrivenDocumentService.engine.definition.DocumentDefinition;
 import com.joshsoftware.templateDrivenDocumentService.engine.definition.FieldType;
-import com.joshsoftware.templateDrivenDocumentService.engine.exception.InvalidDefinitionException;
 import com.joshsoftware.templateDrivenDocumentService.support.Fixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,7 +21,6 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class DefaultMappingEngineTest {
@@ -42,15 +40,12 @@ class DefaultMappingEngineTest {
             "samples/payload.json, samples/expected-mapped.json",
             "samples/payload-complete.json, samples/expected-mapped-complete.json"})
     void mapsBankPayloadToContractShape(String payload, String expected) {
-        DocumentDefinition def = statement();
-        JsonNode mappingBefore = def.transform().deepCopy();
         JsonNode input = Fixtures.json(payload);
 
-        JsonNode mapped = engine.transform(def, input);
+        JsonNode mapped = engine.transform(statement(), input);
 
         assertThat(mapped).isEqualTo(Fixtures.json(expected));
-        // Definitions are shared once loaded; the engine must leave the mapping and the payload alone
-        assertThat(def.transform()).isEqualTo(mappingBefore);
+        // The engine must leave the caller's payload alone
         assertThat(input).isEqualTo(Fixtures.json(payload));
     }
 
@@ -112,49 +107,12 @@ class DefaultMappingEngineTest {
                         "{'X':{'Y':{'Z':'deep'}}}", "{'a':{'b':{'c':'deep'}}}"));
     }
 
-    // ---- broken mapping forms fail when transform reaches them ----
-
-    @ParameterizedTest(name = "{0}")
-    @MethodSource("brokenForms")
-    void rejectsBrokenFormNamingTheField(String scenario, String transform, String message) {
-        DocumentDefinition def = definition(Map.of("v", TEXT), STATEMENT_FORMATS, json(transform));
-
-        assertThatThrownBy(() -> engine.transform(def, json("{'Rows':[{}]}")))
-                .isInstanceOf(InvalidDefinitionException.class)
-                .hasMessage(message);
-    }
-
-    static Stream<Arguments> brokenForms() {
-        return Stream.of(
-                arguments("empty path segment", "{'v':'A..B'}", "mapping field 'v': bad path"),
-                arguments("bad index", "{'v':'A[x]'}", "mapping field 'v': bad path"),
-                arguments("index too large", "{'v':'A[99999999999]'}", "mapping field 'v': bad path"),
-                arguments("nested bad path", "{'v':{'from':'Rows','map':{'amt':'Amt.'}}}", "mapping field 'v.amt': bad path"),
-                arguments("unknown system function", "{'v':'system.yesterday()'}",
-                        "mapping field 'v': unknown system function"),
-                arguments("system function without ()", "{'v':'system.today'}", "mapping field 'v': bad system function"),
-                arguments("number instead of a rule", "{'v':5}",
-                        "mapping field 'v': must be a path, system function, object or null"),
-                arguments("list without from", "{'v':{'map':{'amt':'Amt'}}}", "mapping field 'v': needs from"),
-                arguments("list without map", "{'v':{'from':'Rows'}}", "mapping field 'v': needs map"),
-                arguments("from with bad path", "{'v':{'from':'Rows..','map':{'amt':'Amt'}}}",
-                        "mapping field 'v': bad from path"),
-                arguments("unknown key in a form", "{'v':{'from':'Rows','where':'x','map':{'amt':'Amt'}}}",
-                        "mapping field 'v': unknown key 'where'"),
-                arguments("select value not a string", "{'v':{'from':'Rows','select':{'Type':1},'map':{'amt':'Amt'}}}",
-                        "mapping field 'v': select must be an object of strings"));
-    }
-
-    // A template with no dates needs no dateFormats, one that calls system.* does
+    // A template with no dates needs no dateFormats
     @Test
-    void requiresDateFormatsOnlyWhenUsed() {
+    void mapsWithoutDateFormatsWhenNoSystemCalls() {
         DocumentDefinition noDates = definition(Map.of("v", TEXT), DateFormats.NONE, json("{'v':'A'}"));
-        DocumentDefinition withDates = definition(Map.of("v", TEXT), DateFormats.NONE, json("{'v':'system.today()'}"));
 
         assertThat(engine.transform(noDates, json("{'A':'x'}"))).isEqualTo(json("{'v':'x'}"));
-        assertThatThrownBy(() -> engine.transform(withDates, json("{}")))
-                .isInstanceOf(InvalidDefinitionException.class)
-                .hasMessage("mapping field 'v': dateFormats.date is required");
     }
 
     // ---- helpers ----

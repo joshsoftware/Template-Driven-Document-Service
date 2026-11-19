@@ -1,4 +1,4 @@
-package com.joshsoftware.templateDrivenDocumentService.engine.mapping;
+package com.joshsoftware.templateDrivenDocumentService.engine.definition;
 
 import com.joshsoftware.templateDrivenDocumentService.engine.exception.InvalidDefinitionException;
 

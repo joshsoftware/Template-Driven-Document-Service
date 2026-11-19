@@ -9,8 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-// One template version, ready to run: template, contract and mapping versioned together
-// Shared once loaded: transform is a JsonNode Jackson can't make read-only, so callers must never mutate it
+// One template version, ready to run: template, contract and compiled mapping versioned together
 public record DocumentDefinition(
         UUID templateVersionId,
         String templateId,
@@ -18,7 +17,7 @@ public record DocumentDefinition(
         String templateHtml,
         Map<String, ContractField> contract,
         DateFormats dateFormats,
-        JsonNode transform) {
+        Map<String, MappingRule> mapping) {
 
     public DocumentDefinition {
         Objects.requireNonNull(templateVersionId, "templateVersionId");
@@ -26,7 +25,7 @@ public record DocumentDefinition(
         Objects.requireNonNull(templateHtml, "templateHtml");
         Objects.requireNonNull(contract, "contract");
         Objects.requireNonNull(dateFormats, "dateFormats");
-        Objects.requireNonNull(transform, "transform");
+        Objects.requireNonNull(mapping, "mapping");
         if (templateId.isBlank()) {
             throw new InvalidDefinitionException("templateId is blank");
         }
@@ -36,11 +35,15 @@ public record DocumentDefinition(
         if (contract.isEmpty()) {
             throw new InvalidDefinitionException("contract: needs fields");
         }
-        if (!transform.isObject()) {
-            throw new InvalidDefinitionException("mapping: transform must be an object");
-        }
         contract = Collections.unmodifiableMap(new LinkedHashMap<>(contract));
-        // Own copy, so nothing outside can change the mapping after load
-        transform = transform.deepCopy();
+        mapping = Collections.unmodifiableMap(new LinkedHashMap<>(mapping));
+        MappingReader.checkDates(mapping, dateFormats, "");
+    }
+
+    // Compiles mapping.json's transform, so a broken rule fails at load, never on a request
+    public DocumentDefinition(UUID templateVersionId, String templateId, int version, String templateHtml,
+                              Map<String, ContractField> contract, DateFormats dateFormats, JsonNode transform) {
+        this(templateVersionId, templateId, version, templateHtml, contract, dateFormats,
+                MappingReader.read(transform));
     }
 }

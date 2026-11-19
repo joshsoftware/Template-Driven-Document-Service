@@ -1,4 +1,4 @@
-package com.joshsoftware.templateDrivenDocumentService.engine.mapping;
+package com.joshsoftware.templateDrivenDocumentService.engine.definition;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.node.JsonNodeFactory;
@@ -9,17 +9,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 // A checked payload path such as "A.B[0].C"; reading it never fails on missing data
-record PayloadPath(List<Segment> segments) {
+public record PayloadPath(List<Segment> segments) {
 
     private static final Pattern SEGMENT = Pattern.compile("([^.\\[\\]\\s]+)((?:\\[\\d+])*)");
     private static final Pattern INDEX = Pattern.compile("\\[(\\d+)]");
 
     // "B[1][0]" -> name "B", indexes [1, 0]
-    record Segment(String name, List<Integer> indexes) {
+    public record Segment(String name, List<Integer> indexes) {
+
+        public Segment {
+            indexes = List.copyOf(indexes);
+        }
     }
 
-    static PayloadPath parse(String path, String field) {
-        return parse(path, field, "path");
+    public PayloadPath {
+        segments = List.copyOf(segments);
     }
 
     // label says which path is broken in the message: "bad path" or "bad from path"
@@ -32,11 +36,11 @@ record PayloadPath(List<Segment> segments) {
             }
             segments.add(new Segment(m.group(1), indexes(m.group(2), field, label)));
         }
-        return new PayloadPath(List.copyOf(segments));
+        return new PayloadPath(segments);
     }
 
     // Missing key, out-of-range index or a wrong-shaped node all give JSON null
-    JsonNode read(JsonNode root) {
+    public JsonNode read(JsonNode root) {
         JsonNode node = root;
         for (Segment segment : segments) {
             node = node != null && node.isObject() ? node.get(segment.name()) : null;
@@ -65,6 +69,6 @@ record PayloadPath(List<Segment> segments) {
                 throw MappingErrors.fail(field, "bad " + label, e);
             }
         }
-        return List.copyOf(indexes);
+        return indexes;
     }
 }
