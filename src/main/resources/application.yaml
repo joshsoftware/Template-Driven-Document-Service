@@ -22,6 +22,8 @@ spring:
     validate-on-migrate: true
     clean-disabled: true
     baseline-on-migrate: false
+    # Template seeds contain Thymeleaf ${...} expressions; Flyway would read them as its own placeholders.
+    placeholder-replacement: false
     
 server:
   port: ${PORT:8080}
