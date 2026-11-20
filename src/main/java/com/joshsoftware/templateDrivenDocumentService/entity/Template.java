@@ -46,7 +46,7 @@ public class Template {
     private String templateId;
 
     @Column(nullable = false, length = 150)
-    private String name;
+    private String description;
 
     @Column(nullable = false, updatable = false)
     private Integer version;

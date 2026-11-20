@@ -8,7 +8,7 @@ CREATE TYPE audit_outcome AS ENUM ('SUCCESS', 'FAILURE');
 CREATE TABLE templates (
     id              UUID            NOT NULL DEFAULT gen_random_uuid(),
     template_id     VARCHAR(64)     NOT NULL,
-    name            VARCHAR(150)    NOT NULL,
+    description     VARCHAR(150)    NOT NULL,
     version         INTEGER         NOT NULL,
     status          template_status NOT NULL DEFAULT 'DRAFT',
     template_html   TEXT,
