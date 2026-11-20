@@ -3,6 +3,7 @@ package com.joshsoftware.templateDrivenDocumentService.controller;
 import com.joshsoftware.templateDrivenDocumentService.constants.HeaderConstants;
 import com.joshsoftware.templateDrivenDocumentService.dto.request.GenerateDocumentRequestDTO;
 import com.joshsoftware.templateDrivenDocumentService.exception.handler.GlobalExceptionHandler;
+import com.joshsoftware.templateDrivenDocumentService.service.impl.DocumentJobServiceImpl;
 import com.joshsoftware.templateDrivenDocumentService.util.filter.RequestIdFilter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,15 +19,17 @@ import tools.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.startsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 // Runs the controller with the real RequestIdFilter and GlobalExceptionHandler.
 @WebMvcTest(GenerateDocumentController.class)
-@Import({GlobalExceptionHandler.class, RequestIdFilter.class})
+@Import({GlobalExceptionHandler.class, RequestIdFilter.class, DocumentJobServiceImpl.class})
 class GenerateDocumentControllerTest {
 
     private static final String URL = "/api/v1/generate-document";
@@ -47,8 +50,14 @@ class GenerateDocumentControllerTest {
                         .content(VALID_BODY))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HeaderConstants.X_REQUEST_ID, "req-1"))
-                .andExpect(jsonPath("$.statusCode").value(200))
-                .andExpect(jsonPath("$.message").value("Document generation request accepted"));
+                .andExpect(jsonPath("$.statusCode").doesNotExist())
+                .andExpect(jsonPath("$.message").value("Document generation request accepted"))
+                .andExpect(content().string(startsWith(
+                        "{\"message\":\"Document generation request accepted\",\"jobId\":")))
+                .andExpect(jsonPath("$.data").doesNotExist())
+                .andExpect(jsonPath("$.jobId").isNotEmpty())
+                .andExpect(jsonPath("$.requestId").value("req-1"))
+                .andExpect(jsonPath("$.status").value("PROCESSING"));
     }
 
     @Test
