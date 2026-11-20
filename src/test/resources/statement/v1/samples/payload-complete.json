@@ -1,0 +1,86 @@
+{
+  "StatementPeriod": {
+    "FromDate": "20200101",
+    "ToDate": "20240601"
+  },
+  "CustomerDetails": {
+    "CustomerId": "100000001",
+    "CustomerName": "TEST CUSTOMER",
+    "FirstName": "TEST",
+    "MiddleName": "SAMPLE",
+    "LastName": "CUSTOMER",
+    "AddressDetails": [
+      {
+        "AddressType": "Resedential Address",
+        "AddressLine": [
+          "12 TEST ROAD",
+          "TEST AREA",
+          "TEST LANDMARK"
+        ],
+        "City": "TEST CITY",
+        "State": "Maharashtra",
+        "PinCode": "411001",
+        "Country": "IN"
+      },
+      {
+        "AddressType": "Permanent Address",
+        "AddressLine": [
+          "12 TEST ROAD",
+          "TEST AREA",
+          "TEST LANDMARK"
+        ],
+        "City": "TEST CITY",
+        "State": "Maharashtra",
+        "PinCode": "411001",
+        "Country": "IN"
+      }
+    ]
+  },
+  "AccountDetails": {
+    "AccountId": "10000000000001",
+    "AccountType": "Savings Account",
+    "BranchName": "Test Branch",
+    "IFSC": "TEST0000001",
+    "MICR": "000000"
+  },
+  "AccountSummary": {
+    "OpeningBalance": "0.00",
+    "TotalCredits": "14400.00",
+    "TotalDebits": "200.00",
+    "ClosingBalance": "14200.00"
+  },
+  "AccountStatement": [
+    {
+      "Documentindex": "TESTDOCINDEX0001",
+      "Desc": "TEST CREDIT-REF0001",
+      "PostingDate": "20240405",
+      "ValueDate": "20240410",
+      "CodeDRCR": "C",
+      "TransactionAmount": "14400",
+      "TransactionDate": "20240410",
+      "BalanceInfo": [
+        {
+          "Currency": 1
+        }
+      ],
+      "RunningBalance": "14400.00",
+      "ChequeNumber": "0"
+    },
+    {
+      "Documentindex": "TESTDOCINDEX0002",
+      "Desc": "NEFT DR-REF0002-TEST BANK-TEST PAYEE",
+      "PostingDate": "20240511",
+      "ValueDate": "20240423",
+      "CodeDRCR": "D",
+      "TransactionAmount": "200",
+      "TransactionDate": "20240423",
+      "BalanceInfo": [
+        {
+          "Currency": 1
+        }
+      ],
+      "RunningBalance": "14200.00",
+      "ChequeNumber": ""
+    }
+  ]
+}

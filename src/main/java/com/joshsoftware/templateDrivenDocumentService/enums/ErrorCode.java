@@ -1,6 +1,7 @@
 package com.joshsoftware.templateDrivenDocumentService.enums;
 
 import com.joshsoftware.templateDrivenDocumentService.engine.exception.DataContractViolationException;
+import com.joshsoftware.templateDrivenDocumentService.engine.exception.InvalidDefinitionException;
 import com.joshsoftware.templateDrivenDocumentService.engine.exception.MappingException;
 import com.joshsoftware.templateDrivenDocumentService.engine.exception.RenderException;
 import com.joshsoftware.templateDrivenDocumentService.exception.AppException;
@@ -46,6 +47,7 @@ public enum ErrorCode {
             case AppException appException -> appException.getErrorCode();
             case DataContractViolationException ignored -> DATA_CONTRACT_VIOLATION;
             case MappingException ignored -> MAPPING_ERROR;
+            case InvalidDefinitionException ignored -> MAPPING_ERROR;
             case RenderException ignored -> RENDER_ERROR;
             default -> INTERNAL_ERROR;
         };

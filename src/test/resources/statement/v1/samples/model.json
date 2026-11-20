@@ -1,0 +1,45 @@
+{
+  "customerName": "TEST CUSTOMER",
+  "address": {
+    "lines": [
+      "12 TEST ROAD",
+      "TEST AREA"
+    ],
+    "city": "TEST CITY",
+    "state": "Maharashtra",
+    "pinCode": "411001",
+    "country": "IN"
+  },
+  "statementDate": "2024-06-01",
+  "accountNumber": "10000000000001",
+  "accountType": "Savings Account",
+  "branchDetails": "Test Branch",
+  "customerId": "100000001",
+  "ifsc": "TEST0000001",
+  "micrCode": "000000",
+  "periodFrom": "2020-01-01",
+  "periodTo": "2024-06-01",
+  "generatedAt": "2024-06-01T10:00:00",
+  "transactions": [
+    {
+      "transactionDate": "2024-04-10",
+      "valueDate": "2024-04-10",
+      "description": "TEST CREDIT-REF0001",
+      "amount": "14400",
+      "drCr": "C",
+      "balance": "14400.00"
+    },
+    {
+      "transactionDate": "2024-04-23",
+      "valueDate": "2024-04-23",
+      "description": "NEFT DR-REF0002-TEST BANK-TEST PAYEE",
+      "amount": "200",
+      "drCr": "D",
+      "balance": "14200.00"
+    }
+  ],
+  "openingBalance": "0.00",
+  "totalCredits": "14400.00",
+  "totalDebits": "200.00",
+  "closingBalance": "14200.00"
+}

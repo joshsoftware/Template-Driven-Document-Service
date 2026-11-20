@@ -1,0 +1,43 @@
+{
+  "StatementPeriod": {
+    "FromDate": "20200101",
+    "ToDate": "20240601"
+  },
+  "AccountDetails": {
+    "AccountId": "10000000000001"
+  },
+  "AccountStatement": [
+    {
+      "Documentindex": "TESTDOCINDEX0001",
+      "Desc": "TEST CREDIT-REF0001",
+      "PostingDate": "20240405",
+      "ValueDate": "20240410",
+      "CodeDRCR": "C",
+      "TransactionAmount": "14400",
+      "TransactionDate": "20240410",
+      "BalanceInfo": [
+        {
+          "Currency": 1
+        }
+      ],
+      "RunningBalance": "14400.00",
+      "ChequeNumber": "0"
+    },
+    {
+      "Documentindex": "TESTDOCINDEX0002",
+      "Desc": "NEFT DR-REF0002-TEST BANK-TEST PAYEE",
+      "PostingDate": "20240511",
+      "ValueDate": "20240423",
+      "CodeDRCR": "D",
+      "TransactionAmount": "200",
+      "TransactionDate": "20240423",
+      "BalanceInfo": [
+        {
+          "Currency": 1
+        }
+      ],
+      "RunningBalance": "14200.00",
+      "ChequeNumber": ""
+    }
+  ]
+}

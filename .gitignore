@@ -54,6 +54,7 @@ application-local.properties
 
 # Claude Code local settings
 .claude/settings.local.json
+.claude/plans/
 
 # Local docs
 /docs/reference_docs/
