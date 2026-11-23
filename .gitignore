@@ -63,3 +63,6 @@ application-local.properties
 # OS files
 .DS_Store
 Thumbs.db
+
+# Local PDF storage (tdds.storage.local.root): generated documents hold customer data
+storage/

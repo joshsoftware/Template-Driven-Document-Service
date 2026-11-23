@@ -23,6 +23,12 @@ spring:
     clean-disabled: true
     baseline-on-migrate: false
     
+tdds:
+  storage:
+    local:
+      # Folder for generated PDFs until S3 storage is added
+      root: ${TDDS_STORAGE_LOCAL_ROOT:./storage}
+
 server:
   port: ${PORT:8080}
 logging:
