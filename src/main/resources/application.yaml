@@ -24,6 +24,9 @@ spring:
     baseline-on-migrate: false
     
 tdds:
+  engine:
+    # Zone for "today" in documents (statement date, generated at)
+    zone: ${TDDS_ENGINE_ZONE:Asia/Kolkata}
   storage:
     local:
       # Folder for generated PDFs until S3 storage is added
