@@ -25,6 +25,15 @@ spring:
     # Template seeds contain Thymeleaf ${...} expressions; Flyway would read them as its own placeholders.
     placeholder-replacement: false
     
+tdds:
+  engine:
+    # Zone for "today" in documents (statement date, generated at)
+    zone: ${TDDS_ENGINE_ZONE:Asia/Kolkata}
+  storage:
+    local:
+      # Folder for generated PDFs until S3 storage is added
+      root: ${TDDS_STORAGE_LOCAL_ROOT:./storage}
+
 server:
   port: ${PORT:8080}
 logging:
