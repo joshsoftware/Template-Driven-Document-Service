@@ -77,12 +77,12 @@ public class DocumentGenerationServiceImpl implements DocumentGenerationService 
             byte[] pdf = render(definition, request.getPayload());
             storagePath = storageService.store(storageKey(definition, jobId), pdf);
             log.debug("[DocumentGenerationServiceImpl#generate] stored bytes={}", pdf.length);
+            markReady(jobId, channel, storagePath);
         } catch (RuntimeException ex) {
             markFailed(jobId, channel, ErrorCode.from(ex), ex);
             throw ex;
         }
-        markReady(jobId, channel, storagePath);
-
+        
         log.info("[DocumentGenerationServiceImpl#generate] end templateId={} version={} status={} durationMs={}",
                 definition.templateId(), definition.version(), JobStatus.READY, System.currentTimeMillis() - start);
         return new GenerateDocumentResponseDTO(jobId, JobStatus.READY);

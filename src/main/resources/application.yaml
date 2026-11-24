@@ -28,9 +28,11 @@ tdds:
     # Zone for "today" in documents (statement date, generated at)
     zone: ${TDDS_ENGINE_ZONE:Asia/Kolkata}
   storage:
-    local:
-      # Folder for generated PDFs until S3 storage is added
-      root: ${TDDS_STORAGE_LOCAL_ROOT:./storage}
+    # Generated PDFs. MinIO in development, AWS S3 on staging and production (see the profile files).
+    s3:
+      bucket: ${TDDS_STORAGE_S3_BUCKET}
+      region: ${TDDS_STORAGE_S3_REGION:ap-south-1}
+      api-call-timeout: ${TDDS_STORAGE_S3_API_CALL_TIMEOUT:30s}
 
 server:
   port: ${PORT:8080}

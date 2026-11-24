@@ -1,8 +1,5 @@
-package com.joshsoftware.templateDrivenDocumentService.service.impl;
+package com.joshsoftware.templateDrivenDocumentService.engine.definition;
 
-import com.joshsoftware.templateDrivenDocumentService.engine.definition.DocumentDefinition;
-import com.joshsoftware.templateDrivenDocumentService.engine.definition.DocumentDefinitionParser;
-import com.joshsoftware.templateDrivenDocumentService.engine.definition.DocumentDefinitionRegistry;
 import com.joshsoftware.templateDrivenDocumentService.engine.exception.InvalidDefinitionException;
 import com.joshsoftware.templateDrivenDocumentService.entity.Template;
 import com.joshsoftware.templateDrivenDocumentService.enums.TemplateStatus;
@@ -10,12 +7,11 @@ import com.joshsoftware.templateDrivenDocumentService.exception.ConfigNotFoundEx
 import com.joshsoftware.templateDrivenDocumentService.repository.TemplateRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 // DB-backed registry: loads the ACTIVE templates row and parses it into a DocumentDefinition.
 // Stage 1 has no config cache, so every request reads and parses the row again.
+// Plain Java like the rest of the engine; EngineConfig creates the bean.
 @Slf4j
-@Service
 @RequiredArgsConstructor
 public class DbDocumentDefinitionRegistry implements DocumentDefinitionRegistry {
 

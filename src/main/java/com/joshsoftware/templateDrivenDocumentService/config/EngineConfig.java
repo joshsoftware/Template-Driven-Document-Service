@@ -2,13 +2,16 @@ package com.joshsoftware.templateDrivenDocumentService.config;
 
 import com.joshsoftware.templateDrivenDocumentService.engine.contract.ContractValidator;
 import com.joshsoftware.templateDrivenDocumentService.engine.contract.DefaultContractValidator;
+import com.joshsoftware.templateDrivenDocumentService.engine.definition.DbDocumentDefinitionRegistry;
 import com.joshsoftware.templateDrivenDocumentService.engine.definition.DocumentDefinitionParser;
+import com.joshsoftware.templateDrivenDocumentService.engine.definition.DocumentDefinitionRegistry;
 import com.joshsoftware.templateDrivenDocumentService.engine.mapping.DefaultMappingEngine;
 import com.joshsoftware.templateDrivenDocumentService.engine.mapping.MappingEngine;
 import com.joshsoftware.templateDrivenDocumentService.engine.render.OpenHtmlPdfRenderer;
 import com.joshsoftware.templateDrivenDocumentService.engine.render.PdfRenderer;
 import com.joshsoftware.templateDrivenDocumentService.engine.render.TemplateRenderer;
 import com.joshsoftware.templateDrivenDocumentService.engine.render.ThymeleafTemplateRenderer;
+import com.joshsoftware.templateDrivenDocumentService.repository.TemplateRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +35,13 @@ public class EngineConfig {
     @Bean
     public DocumentDefinitionParser documentDefinitionParser(JsonMapper jsonMapper) {
         return new DocumentDefinitionParser(jsonMapper);
+    }
+
+    // Reads the ACTIVE template row and parses it on every call (no cache in Stage 1)
+    @Bean
+    public DocumentDefinitionRegistry documentDefinitionRegistry(TemplateRepository templateRepository,
+                                                                 DocumentDefinitionParser parser) {
+        return new DbDocumentDefinitionRegistry(templateRepository, parser);
     }
 
     @Bean
