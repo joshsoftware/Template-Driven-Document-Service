@@ -20,3 +20,9 @@ logging:
   level:
     root: WARN
     com.joshsoftware.templateDrivenDocumentService: INFO
+
+tdds:
+  storage:
+    s3:
+      # AWS S3. No endpoint and no keys: credentials come from the IAM role via the default provider chain.
+      server-side-encryption: ${TDDS_STORAGE_S3_SSE:AES256}

@@ -4,6 +4,7 @@ import com.joshsoftware.templateDrivenDocumentService.constants.HeaderConstants;
 import com.joshsoftware.templateDrivenDocumentService.dto.request.GenerateDocumentRequestDTO;
 import com.joshsoftware.templateDrivenDocumentService.exception.handler.GlobalExceptionHandler;
 import com.joshsoftware.templateDrivenDocumentService.util.filter.RequestIdFilter;
+import com.joshsoftware.templateDrivenDocumentService.service.DocumentGenerationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -12,6 +13,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
@@ -28,6 +30,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(GenerateDocumentController.class)
 @Import({GlobalExceptionHandler.class, RequestIdFilter.class})
 class GenerateDocumentControllerTest {
+
+    // The service is covered by DocumentGenerationServiceImplTest; here it only needs to exist.
+    @MockitoBean
+    private DocumentGenerationService documentGenerationService;
 
     private static final String URL = "/api/v1/generate-document";
     private static final String VALID_BODY = """
@@ -48,7 +54,7 @@ class GenerateDocumentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string(HeaderConstants.X_REQUEST_ID, "req-1"))
                 .andExpect(jsonPath("$.statusCode").value(200))
-                .andExpect(jsonPath("$.message").value("Document generation request accepted"));
+                .andExpect(jsonPath("$.message").value("Document generated"));
     }
 
     @Test
