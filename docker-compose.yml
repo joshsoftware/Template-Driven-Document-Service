@@ -1,5 +1,7 @@
-# Local dependencies for development. The app runs on the host with ./gradlew bootRun.
-# Usage: docker compose up -d   (reads MINIO_ROOT_USER / MINIO_ROOT_PASSWORD from .env)
+# Local stack for development and testing.
+#   Dependencies only (app runs on the host with ./gradlew bootRun):  docker compose up -d
+#   Full stack, app in Docker:                                         docker compose --profile app up -d --build
+# Reads MINIO_ROOT_USER / MINIO_ROOT_PASSWORD from .env.
 #
 # The MinIO image is not pulled from Docker Hub; load it once from the shared tar:
 #   docker load -i minio.tar
@@ -10,6 +12,35 @@ x-minio-image: &minio-image
   pull_policy: never
 
 services:
+  # Same image and database name as CI; host port 5434 (override with POSTGRES_HOST_PORT) to avoid a local Postgres
+  postgres:
+    image: postgres:16-alpine
+    # Same credentials as the app's DB_USERNAME / DB_PASSWORD in .env
+    environment:
+      POSTGRES_DB: ${DB_NAME:-template_driven_document}
+      POSTGRES_USER: ${DB_USERNAME:?set DB_USERNAME in .env}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-5434}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Host port 6380 so it does not clash with a local Redis
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "127.0.0.1:6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   minio:
     <<: *minio-image
     command: server /data --console-address ":9001"
@@ -45,5 +76,35 @@ services:
       "
     restart: "no"
 
+  # The app itself, built from the Dockerfile; only started with --profile app
+  app:
+    profiles: ["app"]
+    build: .
+    image: tdds-app:local
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    # Set here, not from .env: inside the network the services are reached by name, not localhost
+    environment:
+      SPRING_PROFILES_ACTIVE: development
+      PORT: 8080
+      DB_URL: jdbc:postgresql://postgres:5432/${DB_NAME:-template_driven_document}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      TDDS_ENGINE_ZONE: ${TDDS_ENGINE_ZONE:-Asia/Kolkata}
+      TDDS_STORAGE_S3_BUCKET: ${TDDS_STORAGE_S3_BUCKET:-tdds-documents}
+      TDDS_STORAGE_S3_ENDPOINT: http://minio:9000
+      TDDS_STORAGE_S3_ACCESS_KEY: ${MINIO_ROOT_USER}
+      TDDS_STORAGE_S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+    ports:
+      - "127.0.0.1:8080:8080"
+
 volumes:
+  pgdata:
   minio-data:
