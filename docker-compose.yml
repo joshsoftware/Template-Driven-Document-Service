@@ -1,7 +1,8 @@
-# Local stack for development and testing.
+# Local stack for development and testing. bootRun and the Docker app use the same .env, unchanged:
+# Postgres is the one on the host (DB_URL), Redis and MinIO run here on localhost ports.
 #   Dependencies only (app runs on the host with ./gradlew bootRun):  docker compose up -d
 #   Full stack, app in Docker:                                         docker compose --profile app up -d --build
-# Reads MINIO_ROOT_USER / MINIO_ROOT_PASSWORD from .env.
+# Every setting and credential comes from .env (see .env.example); nothing is hard-coded here.
 #
 # The MinIO image is not pulled from Docker Hub; load it once from the shared tar:
 #   docker load -i minio.tar
@@ -12,29 +13,10 @@ x-minio-image: &minio-image
   pull_policy: never
 
 services:
-  # Same image and database name as CI; host port 5434 (override with POSTGRES_HOST_PORT) to avoid a local Postgres
-  postgres:
-    image: postgres:16-alpine
-    # Same credentials as the app's DB_USERNAME / DB_PASSWORD in .env
-    environment:
-      POSTGRES_DB: ${DB_NAME:-template_driven_document}
-      POSTGRES_USER: ${DB_USERNAME:?set DB_USERNAME in .env}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
-    ports:
-      - "127.0.0.1:${POSTGRES_HOST_PORT:-5434}:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
-  # Host port 6380 so it does not clash with a local Redis
   redis:
     image: redis:7-alpine
     ports:
-      - "127.0.0.1:6380:6379"
+      - "127.0.0.1:${REDIS_PORT:-6379}:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -59,52 +41,40 @@ services:
       timeout: 5s
       retries: 10
 
-  # One-off: creates the documents bucket with the mc bundled in the MinIO image, then exits
+  # One-off: creates the documents bucket with the mc bundled in the MinIO image, then exits.
+  # Host network, so it reaches MinIO at the same TDDS_STORAGE_S3_ENDPOINT as the app.
   minio-init:
     <<: *minio-image
+    network_mode: host
     depends_on:
       minio:
         condition: service_healthy
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-      BUCKET: ${TDDS_STORAGE_S3_BUCKET:-tdds-documents}
+      BUCKET: ${TDDS_STORAGE_S3_BUCKET:?set TDDS_STORAGE_S3_BUCKET in .env}
+      S3_ENDPOINT: ${TDDS_STORAGE_S3_ENDPOINT:?set TDDS_STORAGE_S3_ENDPOINT in .env}
     entrypoint: >
       /bin/sh -c "
-      mc alias set local http://minio:9000 \"$${MINIO_ROOT_USER}\" \"$${MINIO_ROOT_PASSWORD}\" &&
+      mc alias set local \"$${S3_ENDPOINT}\" \"$${MINIO_ROOT_USER}\" \"$${MINIO_ROOT_PASSWORD}\" &&
       mc mb --ignore-existing \"local/$${BUCKET}\"
       "
     restart: "no"
 
-  # The app itself, built from the Dockerfile; only started with --profile app
+  # The app itself, built from the Dockerfile; only started with --profile app.
+  # Host network, so localhost means the host: same DB_URL, Redis and MinIO addresses as bootRun,
+  # and it listens on the host's PORT directly. Linux (or Docker Desktop with host networking).
   app:
     profiles: ["app"]
     build: .
     image: tdds-app:local
+    network_mode: host
     depends_on:
-      postgres:
-        condition: service_healthy
       redis:
         condition: service_healthy
       minio-init:
         condition: service_completed_successfully
-    # Set here, not from .env: inside the network the services are reached by name, not localhost
-    environment:
-      SPRING_PROFILES_ACTIVE: development
-      PORT: 8080
-      DB_URL: jdbc:postgresql://postgres:5432/${DB_NAME:-template_driven_document}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      TDDS_ENGINE_ZONE: ${TDDS_ENGINE_ZONE:-Asia/Kolkata}
-      TDDS_STORAGE_S3_BUCKET: ${TDDS_STORAGE_S3_BUCKET:-tdds-documents}
-      TDDS_STORAGE_S3_ENDPOINT: http://minio:9000
-      TDDS_STORAGE_S3_ACCESS_KEY: ${MINIO_ROOT_USER}
-      TDDS_STORAGE_S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
-    ports:
-      - "127.0.0.1:8080:8080"
+    env_file: .env
 
 volumes:
-  pgdata:
   minio-data:
