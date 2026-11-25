@@ -8,8 +8,10 @@ import com.joshsoftware.templateDrivenDocumentService.repository.TemplateReposit
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-// DB-backed registry: loads the ACTIVE templates row and parses it into a DocumentDefinition.
-// Stage 1 has no config cache, so every request reads and parses the row again.
+import java.util.UUID;
+
+// DB-backed registry: loads a templates row and parses it into a DocumentDefinition.
+// Stage 1 has no config cache, so every lookup reads and parses the row again.
 // Plain Java like the rest of the engine; EngineConfig creates the bean.
 @Slf4j
 @RequiredArgsConstructor
@@ -24,14 +26,27 @@ public class DbDocumentDefinitionRegistry implements DocumentDefinitionRegistry 
     public DocumentDefinition get(String templateId) {
         Template template = templateRepository.findByTemplateIdAndStatus(templateId, TemplateStatus.ACTIVE)
                 .orElseThrow(() -> new ConfigNotFoundException(templateId));
+        return parse(template);
+    }
+
+    // No status filter: a DISABLED version still loads for jobs already queued on it.
+    // ConfigNotFoundException (404) for an unknown id, InvalidDefinitionException (500) for broken config
+    @Override
+    public DocumentDefinition getByVersionId(UUID templateVersionId) {
+        Template template = templateRepository.findById(templateVersionId)
+                .orElseThrow(() -> new ConfigNotFoundException(templateVersionId));
+        return parse(template);
+    }
+
+    private DocumentDefinition parse(Template template) {
         if (template.getTemplateHtml() == null || template.getTemplateHtml().isBlank()) {
             throw new InvalidDefinitionException("template: template_html is empty");
         }
         DocumentDefinition definition = parser.parse(template.getId(), template.getTemplateId(),
                 template.getVersion(), template.getTemplateHtml(), template.getContractJson(),
                 template.getMappingJson());
-        log.debug("[DbDocumentDefinitionRegistry#get] loaded templateId={} version={} templateVersionId={}",
-                templateId, definition.version(), definition.templateVersionId());
+        log.debug("[DbDocumentDefinitionRegistry#parse] loaded templateId={} version={} templateVersionId={} status={}",
+                definition.templateId(), definition.version(), definition.templateVersionId(), template.getStatus());
         return definition;
     }
 }
