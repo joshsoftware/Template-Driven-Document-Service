@@ -38,6 +38,13 @@ tdds:
     type: ${TDDS_QUEUE_TYPE:db}
     max-attempts: ${TDDS_QUEUE_MAX_ATTEMPTS:3}
     lease: ${TDDS_QUEUE_LEASE:5m}
+  payload:
+    # AES-256-GCM key for the queued job payload (base64 of 32 bytes). AWS Secrets Manager in staging/production,
+    # .env locally. For rotation add keys.v2 and switch the active id; v1 stays until queued v1 jobs are done.
+    encryption:
+      active-key-id: ${TDDS_PAYLOAD_ENCRYPTION_KEY_ID:v1}
+      keys:
+        v1: ${TDDS_PAYLOAD_ENCRYPTION_KEY}
 
 server:
   port: ${PORT:8080}

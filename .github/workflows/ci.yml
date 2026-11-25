@@ -88,6 +88,10 @@ jobs:
           DB_PASSWORD: postgres
           REDIS_HOST: localhost
           REDIS_PORT: ${{ vars.LOCAL_REDIS_PORT || job.services.redis.ports['6379'] }}
+          # Required at startup; tests never upload, so no MinIO is needed
+          TDDS_STORAGE_S3_BUCKET: tdds-documents
+          # Checked at startup; repo secret (Settings → Secrets and variables → Actions), base64 of 32 bytes
+          TDDS_PAYLOAD_ENCRYPTION_KEY: ${{ secrets.TDDS_PAYLOAD_ENCRYPTION_KEY }}
 
       - name: Coverage summary
         if: always()
