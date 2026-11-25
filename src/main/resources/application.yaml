@@ -33,6 +33,11 @@ tdds:
       bucket: ${TDDS_STORAGE_S3_BUCKET}
       region: ${TDDS_STORAGE_S3_REGION:ap-south-1}
       api-call-timeout: ${TDDS_STORAGE_S3_API_CALL_TIMEOUT:30s}
+  queue:
+    # Job queue for async generation: db (Postgres, default) or mq (message broker)
+    type: ${TDDS_QUEUE_TYPE:db}
+    max-attempts: ${TDDS_QUEUE_MAX_ATTEMPTS:3}
+    lease: ${TDDS_QUEUE_LEASE:5m}
 
 server:
   port: ${PORT:8080}
