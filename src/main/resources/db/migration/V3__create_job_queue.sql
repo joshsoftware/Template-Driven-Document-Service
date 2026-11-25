@@ -5,7 +5,7 @@
 CREATE TABLE job_queue (
     job_id      UUID         NOT NULL,
     -- [12-byte IV][AES-256-GCM ciphertext + tag] of the gzipped mapped JSON, job id as AAD
-    payload_enc BYTEA        NOT NULL,
+    payload_encrypted BYTEA  NOT NULL,
     -- Names the encryption key, so keys can be rotated without breaking queued jobs
     key_id      VARCHAR(64)  NOT NULL,
     attempts    INTEGER      NOT NULL DEFAULT 0,
