@@ -17,7 +17,7 @@ public enum ErrorCode {
     DATA_CONTRACT_VIOLATION(HttpStatus.UNPROCESSABLE_CONTENT, "Payload does not match the data contract"),
     MAPPING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Template mapping configuration is invalid"),
     RENDER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Document could not be rendered"),
-    STORAGE_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "Document could not be stored"),
+    STORAGE_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "Document storage is unavailable"),
     // Download: unknown job, or its PDF cannot be served. Expired and missing share one message on purpose.
     JOB_NOT_FOUND(HttpStatus.NOT_FOUND, "Document job not found"),
     DOCUMENT_NOT_READY(HttpStatus.CONFLICT, "Document is not ready yet"),
