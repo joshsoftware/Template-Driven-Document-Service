@@ -18,6 +18,11 @@ public enum ErrorCode {
     MAPPING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Template mapping configuration is invalid"),
     RENDER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Document could not be rendered"),
     STORAGE_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "Document could not be stored"),
+    // Download: unknown job, or its PDF cannot be served. Expired and missing share one message on purpose.
+    JOB_NOT_FOUND(HttpStatus.NOT_FOUND, "Document job not found"),
+    DOCUMENT_NOT_READY(HttpStatus.CONFLICT, "Document is not ready yet"),
+    DOCUMENT_FAILED(HttpStatus.CONFLICT, "Document generation failed"),
+    DOCUMENT_EXPIRED(HttpStatus.GONE, "Document is no longer available"),
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred"),
 
     // Wrong URL, method or content type
