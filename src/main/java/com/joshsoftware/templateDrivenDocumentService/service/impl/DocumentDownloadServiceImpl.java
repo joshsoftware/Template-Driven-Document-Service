@@ -1,29 +1,23 @@
 package com.joshsoftware.templateDrivenDocumentService.service.impl;
 
+import com.joshsoftware.templateDrivenDocumentService.annotation.Audit;
 import com.joshsoftware.templateDrivenDocumentService.dto.DocumentDownload;
 import com.joshsoftware.templateDrivenDocumentService.dto.JobDownloadView;
 import com.joshsoftware.templateDrivenDocumentService.dto.StoredDocument;
-import com.joshsoftware.templateDrivenDocumentService.entity.DocumentJob;
 import com.joshsoftware.templateDrivenDocumentService.enums.AuditAction;
-import com.joshsoftware.templateDrivenDocumentService.enums.AuditOutcome;
 import com.joshsoftware.templateDrivenDocumentService.enums.ErrorCode;
 import com.joshsoftware.templateDrivenDocumentService.exception.DocumentUnavailableException;
 import com.joshsoftware.templateDrivenDocumentService.exception.JobNotFoundException;
 import com.joshsoftware.templateDrivenDocumentService.repository.DocumentJobRepository;
-import com.joshsoftware.templateDrivenDocumentService.service.AuditLogService;
 import com.joshsoftware.templateDrivenDocumentService.service.DocumentDownloadService;
 import com.joshsoftware.templateDrivenDocumentService.service.DocumentStorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.time.Clock;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.UUID;
 
 // Serves READY PDFs from storage. Refused calls (404/409/410) are logged, not audited; every stream attempt is audited.
@@ -38,9 +32,6 @@ public class DocumentDownloadServiceImpl implements DocumentDownloadService {
 
     private final DocumentJobRepository documentJobRepository;
     private final DocumentStorageService storageService;
-    private final AuditLogService auditLogService;
-    private final TransactionTemplate transactionTemplate;
-    private final Clock clock;
 
     @Override
     public DocumentDownload open(String jobId) {
@@ -53,7 +44,10 @@ public class DocumentDownloadServiceImpl implements DocumentDownloadService {
         return new DocumentDownload(id, FILE_NAME_FORMAT.formatted(job.templateId()), job.channel(), document);
     }
 
+    // Audited after streaming in its own transaction: SUCCESS when it returns, FAILURE when it throws
     @Override
+    @Audit(action = AuditAction.DOWNLOAD, jobId = "#download.jobId()", channel = "#download.channel()",
+            mode = Audit.Mode.SEPARATE)
     public void stream(DocumentDownload download, OutputStream out) throws IOException {
         long start = System.currentTimeMillis();
         long bytes;
@@ -64,10 +58,8 @@ public class DocumentDownloadServiceImpl implements DocumentDownloadService {
             // Client went away or storage broke mid-stream: the job is unchanged, so the client can retry
             log.warn("[DocumentDownloadServiceImpl#stream] stream broken jobId={} type={}",
                     download.jobId(), e.getClass().getName());
-            audit(download, AuditOutcome.FAILURE);
             throw e;
         }
-        audit(download, AuditOutcome.SUCCESS);
         log.info("[DocumentDownloadServiceImpl#stream] streamed jobId={} bytes={} durationMs={}",
                 download.jobId(), bytes, System.currentTimeMillis() - start);
     }
@@ -108,23 +100,5 @@ public class DocumentDownloadServiceImpl implements DocumentDownloadService {
         if (refusal != null) {
             throw new DocumentUnavailableException(refusal, job.jobId(), job.status());
         }
-    }
-
-    // The client already has (or lost) the PDF, so an audit failure is logged, never thrown at it
-    private void audit(DocumentDownload download, AuditOutcome outcome) {
-        try {
-            transactionTemplate.executeWithoutResult(status -> {
-                DocumentJob job = documentJobRepository.getReferenceById(download.jobId());
-                auditLogService.record(job, AuditAction.DOWNLOAD, outcome, download.channel(), now());
-            });
-        } catch (RuntimeException e) {
-            log.error("[DocumentDownloadServiceImpl#audit] audit not written jobId={} outcome={} type={}",
-                    download.jobId(), outcome, e.getClass().getName());
-        }
-    }
-
-    // Timestamp columns are TIMESTAMPTZ written as UTC (hibernate.jdbc.time_zone)
-    private LocalDateTime now() {
-        return LocalDateTime.ofInstant(clock.instant(), ZoneOffset.UTC);
     }
 }
