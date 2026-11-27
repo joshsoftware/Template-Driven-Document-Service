@@ -9,6 +9,8 @@ import com.joshsoftware.templateDrivenDocumentService.service.AuditLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +21,9 @@ public class AuditLogServiceImpl implements AuditLogService {
 
     private final AuditLogRepository auditLogRepository;
 
+    // MANDATORY: a row written outside the caller's transaction would not commit with its change, so fail loudly
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public void record(DocumentJob job, AuditAction action, AuditOutcome outcome, String channel,
                        LocalDateTime createdAt) {
         AuditLog entry = new AuditLog();

@@ -1,5 +1,6 @@
 package com.joshsoftware.templateDrivenDocumentService.service.impl;
 
+import com.joshsoftware.templateDrivenDocumentService.audit.AuditAspect;
 import com.joshsoftware.templateDrivenDocumentService.dto.DocumentDownload;
 import com.joshsoftware.templateDrivenDocumentService.dto.JobDownloadView;
 import com.joshsoftware.templateDrivenDocumentService.dto.StoredDocument;
@@ -17,8 +18,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,7 +42,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-// Mocked repository, storage and audit; real streaming against in-memory streams
+// Mocked repository, storage and audit service; real @Audit aspect and streaming against in-memory streams
 class DocumentDownloadServiceImplTest {
 
     private static final Clock CLOCK = Clock.fixed(Instant.parse("2024-06-01T04:30:00Z"), ZoneId.of("Asia/Kolkata"));
@@ -58,9 +59,16 @@ class DocumentDownloadServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        TransactionTemplate tx = new TransactionTemplate(mock(PlatformTransactionManager.class));
-        service = new DocumentDownloadServiceImpl(jobs, storage, audit, tx, CLOCK);
+        service = audited(new DocumentDownloadServiceImpl(jobs, storage));
         when(jobs.getReferenceById(JOB_ID)).thenReturn(jobRef);
+    }
+
+    // Real @Audit aspect around the service, as the controller calls it through the Spring proxy
+    private DocumentDownloadServiceImpl audited(DocumentDownloadServiceImpl target) {
+        AspectJProxyFactory factory = new AspectJProxyFactory(target);
+        factory.setProxyTargetClass(true);
+        factory.addAspect(new AuditAspect(audit, jobs, mock(PlatformTransactionManager.class), CLOCK));
+        return factory.getProxy();
     }
 
     @Test
