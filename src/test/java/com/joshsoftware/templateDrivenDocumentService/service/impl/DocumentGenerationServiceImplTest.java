@@ -1,5 +1,6 @@
 package com.joshsoftware.templateDrivenDocumentService.service.impl;
 
+import com.joshsoftware.templateDrivenDocumentService.audit.AuditAspect;
 import com.joshsoftware.templateDrivenDocumentService.constants.MdcConstants;
 import com.joshsoftware.templateDrivenDocumentService.dto.request.GenerateDocumentRequestDTO;
 import com.joshsoftware.templateDrivenDocumentService.dto.response.GenerateDocumentResponseDTO;
@@ -22,6 +23,7 @@ import com.joshsoftware.templateDrivenDocumentService.exception.StorageException
 import com.joshsoftware.templateDrivenDocumentService.repository.AuditLogRepository;
 import com.joshsoftware.templateDrivenDocumentService.repository.DocumentJobRepository;
 import com.joshsoftware.templateDrivenDocumentService.repository.TemplateRepository;
+import com.joshsoftware.templateDrivenDocumentService.service.DocumentJobStateService;
 import com.joshsoftware.templateDrivenDocumentService.service.DocumentStorageService;
 import com.joshsoftware.templateDrivenDocumentService.support.Fixtures;
 import com.joshsoftware.templateDrivenDocumentService.support.PdfText;
@@ -31,6 +33,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.slf4j.MDC;
+import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -56,7 +59,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-// Real engine and audit service on the statement fixtures; only the registry, storage and repositories are mocked
+// Real engine, job state service and @Audit aspect on the statement fixtures; only the registry, storage and repositories are mocked
 class DocumentGenerationServiceImplTest {
 
     private static final Clock CLOCK = Clock.fixed(Instant.parse("2024-06-01T04:30:00Z"), ZoneId.of("Asia/Kolkata"));
@@ -78,10 +81,11 @@ class DocumentGenerationServiceImplTest {
     @BeforeEach
     void setUp() {
         // A mock transaction manager runs each callback directly, with no real transaction
-        TransactionTemplate tx = new TransactionTemplate(mock(PlatformTransactionManager.class));
+        PlatformTransactionManager transactionManager = mock(PlatformTransactionManager.class);
+        TransactionTemplate tx = new TransactionTemplate(transactionManager);
         service = new DocumentGenerationServiceImpl(registry, new DefaultMappingEngine(CLOCK),
                 new DefaultContractValidator(), new ThymeleafTemplateRenderer(), new OpenHtmlPdfRenderer(),
-                storage, templates, jobs, new AuditLogServiceImpl(audits), tx, CLOCK);
+                storage, templates, jobs, auditedJobStateService(transactionManager), tx, CLOCK);
 
         when(registry.get("statement")).thenReturn(statement);
         Template template = new Template();
@@ -186,6 +190,14 @@ class DocumentGenerationServiceImplTest {
         verify(jobs, never()).save(any());
         verifyNoInteractions(audits, storage);
         assertThat(MDC.get(MdcConstants.JOB_ID)).isNull();
+    }
+
+    // Real state service behind the real @Audit aspect, so audit rows are written as in the app
+    private DocumentJobStateService auditedJobStateService(PlatformTransactionManager transactionManager) {
+        AspectJProxyFactory factory = new AspectJProxyFactory(new DocumentJobStateServiceImpl(jobs, CLOCK));
+        factory.setProxyTargetClass(true);
+        factory.addAspect(new AuditAspect(new AuditLogServiceImpl(audits), jobs, transactionManager, CLOCK));
+        return factory.getProxy();
     }
 
     private DocumentJob onlyJob() {

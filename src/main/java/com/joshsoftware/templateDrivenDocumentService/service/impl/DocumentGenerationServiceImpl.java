@@ -10,14 +10,12 @@ import com.joshsoftware.templateDrivenDocumentService.engine.mapping.MappingEngi
 import com.joshsoftware.templateDrivenDocumentService.engine.render.PdfRenderer;
 import com.joshsoftware.templateDrivenDocumentService.engine.render.TemplateRenderer;
 import com.joshsoftware.templateDrivenDocumentService.entity.DocumentJob;
-import com.joshsoftware.templateDrivenDocumentService.enums.AuditAction;
-import com.joshsoftware.templateDrivenDocumentService.enums.AuditOutcome;
 import com.joshsoftware.templateDrivenDocumentService.enums.ErrorCode;
 import com.joshsoftware.templateDrivenDocumentService.enums.JobStatus;
 import com.joshsoftware.templateDrivenDocumentService.repository.DocumentJobRepository;
 import com.joshsoftware.templateDrivenDocumentService.repository.TemplateRepository;
-import com.joshsoftware.templateDrivenDocumentService.service.AuditLogService;
 import com.joshsoftware.templateDrivenDocumentService.service.DocumentGenerationService;
+import com.joshsoftware.templateDrivenDocumentService.service.DocumentJobStateService;
 import com.joshsoftware.templateDrivenDocumentService.service.DocumentStorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +36,7 @@ import java.util.UUID;
 //   2. job row PROCESSING           - committed on its own, so the FAILED update below is never rolled back with it
 //   3. map -> validate -> XHTML -> PDF
 //   4. store the PDF
-//   5. job READY + audit SUCCESS    - one transaction
+//   5. job READY + audit SUCCESS    - one transaction (DocumentJobStateService)
 //   on any failure after 2: job FAILED + error code, audit FAILURE, then rethrow for GlobalExceptionHandler.
 // The payload and the model hold customer data: they are never logged.
 @Slf4j
@@ -56,7 +54,7 @@ public class DocumentGenerationServiceImpl implements DocumentGenerationService 
     private final DocumentStorageService storageService;
     private final TemplateRepository templateRepository;
     private final DocumentJobRepository documentJobRepository;
-    private final AuditLogService auditLogService;
+    private final DocumentJobStateService jobStateService;
     private final TransactionTemplate transactionTemplate;
     private final Clock clock;
 
@@ -77,7 +75,7 @@ public class DocumentGenerationServiceImpl implements DocumentGenerationService 
             byte[] pdf = render(definition, request.getPayload());
             storagePath = storageService.store(storageKey(definition, jobId), pdf);
             log.debug("[DocumentGenerationServiceImpl#generate] stored bytes={}", pdf.length);
-            markReady(jobId, channel, storagePath);
+            jobStateService.markReady(jobId, channel, storagePath);
         } catch (RuntimeException ex) {
             markFailed(jobId, channel, ErrorCode.from(ex), ex);
             throw ex;
@@ -112,28 +110,10 @@ public class DocumentGenerationServiceImpl implements DocumentGenerationService 
         return job.getId();
     }
 
-    private void markReady(UUID jobId, String channel, String storagePath) {
-        transactionTemplate.executeWithoutResult(status -> {
-            DocumentJob job = documentJobRepository.getReferenceById(jobId);
-            LocalDateTime completedAt = now();
-            job.setStatus(JobStatus.READY);
-            job.setStoragePath(storagePath);
-            job.setCompletedAt(completedAt);
-            auditLogService.record(job, AuditAction.GENERATE, AuditOutcome.SUCCESS, channel, completedAt);
-        });
-    }
-
     // Must not hide the original error: if recording the failure also fails, log it and keep the first one
     private void markFailed(UUID jobId, String channel, ErrorCode errorCode, RuntimeException cause) {
         try {
-            transactionTemplate.executeWithoutResult(status -> {
-                DocumentJob job = documentJobRepository.getReferenceById(jobId);
-                LocalDateTime completedAt = now();
-                job.setStatus(JobStatus.FAILED);
-                job.setErrorCode(errorCode.name());
-                job.setCompletedAt(completedAt);
-                auditLogService.record(job, AuditAction.GENERATE, AuditOutcome.FAILURE, channel, completedAt);
-            });
+            jobStateService.markFailed(jobId, channel, errorCode);
             log.warn("[DocumentGenerationServiceImpl#markFailed] job failed errorCode={}", errorCode);
         } catch (RuntimeException recordError) {
             log.error("[DocumentGenerationServiceImpl#markFailed] could not mark job FAILED errorCode={} type={}",
